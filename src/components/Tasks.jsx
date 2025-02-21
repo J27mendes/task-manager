@@ -1,11 +1,11 @@
-import Header from "./Header";
+import Header from './Header'
 
 function Tasks() {
   return (
     <Header>
       <p>tenso isso</p>
     </Header>
-  );
+  )
 }
 
-export default Tasks;
+export default Tasks
