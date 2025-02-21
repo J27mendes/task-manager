@@ -1,5 +1,11 @@
+/* eslint-disable react/prop-types */
 function Header(props) {
-  return <header className="header">{props.children}</header>;
+  return (
+    <>
+      <p>testando</p>
+      <header className="header">{props.children}</header>
+    </>
+  )
 }
 
-export default Header;
+export default Header
