@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Tasks from "./components/Tasks";
+import { useState } from 'react'
+import Sidebar from './components/Sidebar'
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0)
 
   return (
     <>
-      <Tasks></Tasks>
+      <Sidebar />
       <div className="card">
         <h2>Task Manager J27</h2>
         <button onClick={() => setCount((count) => count + 1)}>
@@ -14,7 +14,7 @@ function App() {
         </button>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
