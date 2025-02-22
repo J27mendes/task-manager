@@ -3,7 +3,7 @@ import Header from './Header'
 function Tasks() {
   return (
     <Header>
-      <p>tenso isso</p>
+      <p className="bg-blue-300 p-3">tenso isso</p>
     </Header>
   )
 }
