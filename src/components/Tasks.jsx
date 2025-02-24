@@ -1,6 +1,10 @@
 import Button from './Button'
 import Trash from '../assets/icons/trash.svg?react'
 import Add from '../assets/icons/Add.svg?react'
+import Sun from '../assets/icons/sun.svg?react'
+import Cloudsun from '../assets/icons/cloud-sun.svg?react'
+import Moon from '../assets/icons/moon.svg?react'
+import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
   return (
@@ -20,6 +24,17 @@ const Tasks = () => {
             <Add />
             Nova Tarefa
           </Button>
+        </div>
+      </div>
+      <div className="rounded-xl bg-white p-6">
+        <div className="space-y-3">
+          <TasksDetach text={'Manhã'} icon={<Sun />} />
+        </div>
+        <div className="my-3 space-y-6">
+          <TasksDetach text={'Tarde'} icon={<Cloudsun />} />
+        </div>
+        <div className="space-y-3">
+          <TasksDetach text={'Noite'} icon={<Moon />} />
         </div>
       </div>
     </div>
