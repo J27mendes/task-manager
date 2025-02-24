@@ -3,7 +3,7 @@ import Loader from '../assets/icons/loader.svg?react'
 import Closed from '../assets/icons/closed.svg?react'
 import Details from '../assets/icons/details.svg?react'
 
-const TaskItem = ({ task }) => {
+const TaskItem = ({ task, handleTaskCheckboxChange }) => {
   const getStatusClasses = () => {
     if (task.status === 'done') {
       return 'bg-[#00AD85] text-[#00AD85]'
@@ -19,7 +19,7 @@ const TaskItem = ({ task }) => {
   }
   return (
     <div
-      className={`flex items-center justify-between rounded-lg bg-opacity-10 px-4 py-3 text-sm ${getStatusClasses()}`}
+      className={`flex items-center justify-between rounded-lg bg-opacity-10 px-4 py-3 text-sm transition ${getStatusClasses()}`}
     >
       <div className="flex items-center gap-2">
         {' '}
@@ -30,6 +30,7 @@ const TaskItem = ({ task }) => {
             type="checkbox"
             checked={task.status === 'done'}
             className="absolute h-full w-full cursor-pointer opacity-0"
+            onChange={() => handleTaskCheckboxChange(task.id)}
           />
           {task.status === 'done' && <Check className="animate-bounce" />}
           {task.status === 'in_progress' && <Loader className="animate-spin" />}
@@ -39,11 +40,8 @@ const TaskItem = ({ task }) => {
         </label>
         {task.title}
       </div>
-      <a
-        href="#"
-        className="transition-opacity hover:animate-ping hover:opacity-80"
-      >
-        <Details />
+      <a href="#" className="transition-opacity hover:opacity-80">
+        <Details className="transition-transform duration-500 hover:scale-150" />
       </a>
     </div>
   )
