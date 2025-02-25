@@ -1,8 +1,10 @@
-import Check from '../assets/icons/check.svg?react'
-import Loader from '../assets/icons/loader.svg?react'
-import Closed from '../assets/icons/closed.svg?react'
-import Details from '../assets/icons/details.svg?react'
-import Trash from '../assets/icons/trash.svg?react'
+import {
+  CheckIcon,
+  LoaderIcon,
+  ClosedIcon,
+  DetailsIcon,
+  TrashIcon,
+} from '../assets/icons'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxChange, handleDeleteClick }) => {
@@ -34,20 +36,22 @@ const TaskItem = ({ task, handleCheckboxChange, handleDeleteClick }) => {
             className="absolute h-full w-full cursor-pointer opacity-0"
             onChange={() => handleCheckboxChange(task.id)}
           />
-          {task.status === 'done' && <Check className="animate-bounce" />}
-          {task.status === 'in_progress' && <Loader className="animate-spin" />}
+          {task.status === 'done' && <CheckIcon className="animate-bounce" />}
+          {task.status === 'in_progress' && (
+            <LoaderIcon className="animate-spin" />
+          )}
           {task.status === 'not_started' && (
-            <Closed className="animate-pulse" />
+            <ClosedIcon className="animate-pulse" />
           )}
         </label>
         {task.title}
       </div>
       <div className="flex items-center gap-2">
         <Button variant="ghost" onClick={() => handleDeleteClick(task.id)}>
-          <Trash className="text-[#fE5A99]" />
+          <TrashIcon className="text-[#fE5A99]" />
         </Button>
         <a href="#" className="transition-opacity hover:opacity-80">
-          <Details className="transition-transform duration-500 hover:scale-150" />
+          <DetailsIcon className="transition-transform duration-500 hover:scale-150" />
         </a>
       </div>
     </div>

@@ -1,9 +1,11 @@
 import Button from './Button'
-import Trash from '../assets/icons/trash.svg?react'
-import Add from '../assets/icons/Add.svg?react'
-import Sun from '../assets/icons/sun.svg?react'
-import Cloudsun from '../assets/icons/cloud-sun.svg?react'
-import Moon from '../assets/icons/moon.svg?react'
+import {
+  TrashIcon,
+  AddIcon,
+  SunIcon,
+  CloudsunIcon,
+  MoonIcon,
+} from '../assets/icons'
 import TasksDetach from './TasksDetach'
 import { useState } from 'react'
 import TaskManager from '../constants/taskManager'
@@ -79,17 +81,17 @@ const Tasks = () => {
         </div>
         <div className="flex items-center gap-3">
           <Button variant={'ghost'}>
-            Limpar Tarefas <Trash />
+            Limpar Tarefas <TrashIcon />
           </Button>
           <Button variant={'primary'}>
-            <Add />
+            <AddIcon />
             Nova Tarefa
           </Button>
         </div>
       </div>
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
-          <TasksDetach text={'Manhã'} icon={<Sun />} />
+          <TasksDetach text={'Manhã'} icon={<SunIcon />} />
           {morningTasks.map((task) => (
             <TaskItem
               task={task}
@@ -100,7 +102,7 @@ const Tasks = () => {
           ))}
         </div>
         <div className="my-6 space-y-3">
-          <TasksDetach text={'Tarde'} icon={<Cloudsun />} />
+          <TasksDetach text={'Tarde'} icon={<CloudsunIcon />} />
           {afternoonTasks.map((task) => (
             <TaskItem
               task={task}
@@ -111,7 +113,7 @@ const Tasks = () => {
           ))}
         </div>
         <div className="space-y-3">
-          <TasksDetach text={'Noite'} icon={<Moon />} />
+          <TasksDetach text={'Noite'} icon={<MoonIcon />} />
           {eveningTasks.map((task) => (
             <TaskItem
               task={task}
