@@ -1,8 +1,8 @@
 import {
   CheckIcon,
-  LoaderIcon,
   ClosedIcon,
   DetailsIcon,
+  LoaderIcon,
   TrashIcon,
 } from '../assets/icons'
 import Button from './Button'
