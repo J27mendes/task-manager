@@ -8,6 +8,7 @@ import TasksDetach from './TasksDetach'
 import { useState } from 'react'
 import TaskManager from '../constants/taskManager'
 import TaskItem from './TaskItem'
+import { toast } from 'sonner'
 
 const Tasks = () => {
   const [tasks, SetTasks] = useState(TaskManager)
@@ -16,6 +17,14 @@ const Tasks = () => {
   const eveningTasks = tasks.filter((task) => task.time === 'evening')
   const handleTaskDeleteClick = (taskId) => {
     const newTasks = tasks.filter((task) => task.id !== taskId)
+    toast.success('Tarefa deletada com sucesso', {
+      style: {
+        background: '#f5202b',
+        color: '#fff',
+        fontSize: '20px',
+        justifyContent: 'center',
+      },
+    })
     return SetTasks(newTasks)
   }
   const handleTaskCheckboxChange = (taskId) => {
@@ -24,12 +33,33 @@ const Tasks = () => {
         return task
       }
       if (task.status === 'not_started') {
+        toast.success('Tarefa em progresso', {
+          style: {
+            color: '#FFAA04',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
         return { ...task, status: 'in_progress' }
       }
       if (task.status === 'in_progress') {
+        toast.success('Tarefa concluida', {
+          style: {
+            color: '#00AD85',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
         return { ...task, status: 'done' }
       }
       if (task.status === 'done') {
+        toast.success('Tarefa não iniciada', {
+          style: {
+            color: '#fE5A99',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
         return { ...task, status: 'not_started' }
       }
 
