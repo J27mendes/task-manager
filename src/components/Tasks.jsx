@@ -90,7 +90,10 @@ const Tasks = () => {
             <AddIcon />
             Nova Tarefa
           </Button>
-          <AddTaskModal isOpen={openModal} />
+          <AddTaskModal
+            isOpen={openModal}
+            handleClose={() => setOpenModal(false)}
+          />
         </div>
       </div>
       <div className="rounded-xl bg-white p-6">
