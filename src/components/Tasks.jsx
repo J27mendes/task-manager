@@ -9,12 +9,14 @@ import {
   TrashIcon,
 } from '../assets/icons'
 import TaskManager from '../constants/taskManager'
+import AddTaskModal from './AddTaskModal'
 import Button from './Button'
 import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
   const [tasks, SetTasks] = useState(TaskManager)
+  const [openModal, setOpenModal] = useState(false)
   const morningTasks = tasks.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time === 'evening')
@@ -84,10 +86,11 @@ const Tasks = () => {
           <Button variant={'ghost'}>
             Limpar Tarefas <TrashIcon />
           </Button>
-          <Button variant={'primary'}>
+          <Button variant={'primary'} onClick={() => setOpenModal(true)}>
             <AddIcon />
             Nova Tarefa
           </Button>
+          <AddTaskModal isOpen={openModal} />
         </div>
       </div>
       <div className="rounded-xl bg-white p-6">
