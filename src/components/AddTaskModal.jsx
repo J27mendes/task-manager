@@ -1,8 +1,9 @@
 import './AddTaskModal.css'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import Button from './Button'
@@ -10,11 +11,30 @@ import Input from './Input'
 import SelectTime from './SelectTime'
 
 const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
-  const [title, setTitle] = useState()
-  const [time, setTime] = useState()
-  const [description, setDescription] = useState()
+  const [title, setTitle] = useState('')
+  const [time, setTime] = useState('')
+  const [description, setDescription] = useState('')
   const nodeRef = useRef()
-  const handelSaveClick = () => {
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle('')
+      setTime('morning')
+      setDescription('')
+    }
+  }, [isOpen])
+
+  const handleSaveClick = () => {
+    if (!title.trim() || !time.trim() || !description.trim()) {
+      return toast.success('Preencha todos os campos', {
+        style: {
+          background: '#f5202b',
+          color: '#fff',
+          fontSize: '20px',
+          justifyContent: 'center',
+        },
+      })
+    }
     handleSubmit({
       id: v4(),
       title,
@@ -69,7 +89,7 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
               >
                 Cancelar
               </Button>
-              <Button className="w-full" size="large" onClick={handelSaveClick}>
+              <Button className="w-full" size="large" onClick={handleSaveClick}>
                 Salvar
               </Button>
             </div>
