@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 
+import InputErrorMessage from './InputErrorMessage;'
 import InputLabel from './InputLabel'
 
 const SelectTime = forwardRef(({ props, errorMessage }, ref) => {
@@ -16,9 +17,7 @@ const SelectTime = forwardRef(({ props, errorMessage }, ref) => {
         <option value={'afternoon'}>Tarde</option>
         <option value={'evening'}>Noite</option>
       </select>
-      {errorMessage && (
-        <p className="text-left text-xs text-red-500">{errorMessage}</p>
-      )}
+      {errorMessage && <InputErrorMessage>{errorMessage}</InputErrorMessage>}
     </div>
   )
 })
