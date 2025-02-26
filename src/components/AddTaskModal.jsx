@@ -1,15 +1,29 @@
 import './AddTaskModal.css'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import { v4 } from 'uuid'
 
 import Button from './Button'
 import Input from './Input'
 import SelectTime from './SelectTime'
 
-const AddTaskModal = ({ isOpen, handleClose }) => {
+const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
+  const [title, setTitle] = useState()
+  const [time, setTime] = useState()
+  const [description, setDescription] = useState()
   const nodeRef = useRef()
+  const handelSaveClick = () => {
+    handleSubmit({
+      id: v4(),
+      title,
+      description,
+      time,
+      status: 'not_started',
+    })
+    handleClose()
+  }
   return createPortal(
     <CSSTransition
       nodeRef={nodeRef}
@@ -32,12 +46,19 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               id="title"
               label="Titulo"
               placeholder={'Insira o titulo da tarefa'}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
             />
-            <SelectTime />
+            <SelectTime
+              value={time}
+              onChange={(event) => setTime(event.target.value)}
+            />
             <Input
               id="description"
               label="Descrição"
               placeholder={'Descrição da tarefa'}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
             />
             <div className="flex gap-3">
               <Button
@@ -48,7 +69,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               >
                 Cancelar
               </Button>
-              <Button className="w-full" size="large">
+              <Button className="w-full" size="large" onClick={handelSaveClick}>
                 Salvar
               </Button>
             </div>

@@ -15,7 +15,7 @@ import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
-  const [tasks, SetTasks] = useState(TaskManager)
+  const [tasks, setTasks] = useState(TaskManager)
   const [openModal, setOpenModal] = useState(false)
   const morningTasks = tasks.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
@@ -30,7 +30,7 @@ const Tasks = () => {
         justifyContent: 'center',
       },
     })
-    return SetTasks(newTasks)
+    return setTasks(newTasks)
   }
   const handleTaskCheckboxChange = (taskId) => {
     const newTasks = tasks.map((task) => {
@@ -70,7 +70,18 @@ const Tasks = () => {
 
       return task
     })
-    SetTasks(newTasks)
+    setTasks(newTasks)
+  }
+
+  const handleAddTask = (nextTask) => {
+    setTasks([...tasks, nextTask])
+    toast.success('Tarefa adicionada com sucesso', {
+      style: {
+        color: '#00AD85',
+        fontSize: '20px',
+        justifyContent: 'center',
+      },
+    })
   }
 
   return (
@@ -93,6 +104,7 @@ const Tasks = () => {
           <AddTaskModal
             isOpen={openModal}
             handleClose={() => setOpenModal(false)}
+            handleSubmit={handleAddTask}
           />
         </div>
       </div>
