@@ -3,7 +3,6 @@ import './AddTaskModal.css'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
-// import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import Button from './Button'
@@ -11,22 +10,23 @@ import Input from './Input'
 import SelectTime from './SelectTime'
 
 const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
-  const [title, setTitle] = useState('')
-  const [time, setTime] = useState('')
-  const [description, setDescription] = useState('')
   const [errors, setErrors] = useState([])
   const nodeRef = useRef()
+  const titleRef = useRef()
+  const timeRef = useRef()
+  const descriptionRef = useRef()
 
   useEffect(() => {
     if (!isOpen) {
-      setTitle('')
-      setTime('morning')
-      setDescription('')
       setErrors([])
     }
   }, [isOpen])
 
   const handleSaveClick = () => {
+    const title = titleRef.current.value
+    const time = timeRef.current.value
+    const description = descriptionRef.current.value
+
     const newErrors = []
     if (!title.trim()) {
       newErrors.push({
@@ -90,22 +90,16 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
               id="title"
               label="Titulo"
               placeholder={'Insira o titulo da tarefa'}
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
               errorMessage={titleError?.message}
+              ref={titleRef}
             />
-            <SelectTime
-              value={time}
-              onChange={(event) => setTime(event.target.value)}
-              errorMessage={timeError?.message}
-            />
+            <SelectTime errorMessage={timeError?.message} ref={timeRef} />
             <Input
               id="description"
               label="Descrição"
               placeholder={'Descrição da tarefa'}
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
               errorMessage={descriptionError?.message}
+              ref={descriptionRef}
             />
             <div className="flex gap-3">
               <Button
