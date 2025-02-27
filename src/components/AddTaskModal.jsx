@@ -106,7 +106,7 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
             <div className="flex gap-3">
               <Button
                 className="w-full"
-                variant="secundary"
+                color="secundary"
                 size="large"
                 onClick={handleClose}
               >
