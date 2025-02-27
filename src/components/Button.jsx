@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { tv } from 'tailwind-variants'
 
 const Button = ({
@@ -30,5 +31,12 @@ const Button = ({
       {children}
     </button>
   )
+}
+
+Button.PropTypes = {
+  children: PropTypes.node.isRequired,
+  color: PropTypes.oneOf(['primary', 'ghost', 'secundary']),
+  size: PropTypes.oneOf(['small', 'large']),
+  className: PropTypes.string,
 }
 export default Button
