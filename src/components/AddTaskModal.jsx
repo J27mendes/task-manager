@@ -1,5 +1,6 @@
 import './AddTaskModal.css'
 
+import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
@@ -122,6 +123,12 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
     </CSSTransition>,
     document.body
   )
+}
+
+AddTaskModal.prototype = {
+  isOpen: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 }
 
 export default AddTaskModal
