@@ -81,8 +81,10 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
         className="fixed inset-0 flex h-screen items-center justify-center backdrop-blur-sm"
       >
         <div className="rounded-xl bg-white p-5 text-center shadow-sm">
-          <h2 className="text-xl font-semibold text-[#35383E]">Nova Tarefa</h2>
-          <p className="mb-4 mt-1 text-sm text-[#9A9CF]">
+          <h2 className="text-xl font-semibold text-brend-darkGrey">
+            Nova Tarefa
+          </h2>
+          <p className="mb-4 mt-1 text-sm text-brend-lightGrey">
             Insira as informações abaixo
           </p>
           <div className="flex w-[336px] flex-col space-y-4">
