@@ -31,7 +31,28 @@ const Tasks = () => {
   const morningTasks = tasks.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time === 'evening')
-  const handleTaskDeleteClick = (taskId) => {
+
+  const handleTaskDeleteClick = async (taskId) => {
+    const response = await fetch(
+      `http://localhost:3000/TaskManager/${taskId}`,
+      {
+        method: 'DELETE',
+      }
+    )
+
+    if (!response.ok) {
+      return toast.success(
+        'Erro ao deletar a tarefa, por favor tente novamente',
+        {
+          style: {
+            background: '#f5202b',
+            color: '#fff',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        }
+      )
+    }
     const newTasks = tasks.filter((task) => task.id !== taskId)
     toast.success('Tarefa deletada com sucesso', {
       style: {
