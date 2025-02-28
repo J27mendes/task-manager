@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 import {
   CheckIcon,
@@ -9,7 +11,36 @@ import {
 } from '../assets/icons'
 import Button from './Button'
 
-const TaskItem = ({ task, handleCheckboxChange, handleDeleteClick }) => {
+const TaskItem = ({ task, handleCheckboxChange, onDeleteSuccess }) => {
+  const [deleteIsLoading, setDeleteIsLoading] = useState(false)
+
+  const handleDeleteClick = async () => {
+    setDeleteIsLoading(true)
+    const response = await fetch(
+      `http://localhost:3000/TaskManager/${task.id}`,
+      {
+        method: 'DELETE',
+      }
+    )
+
+    if (!response.ok) {
+      setDeleteIsLoading(false)
+      return toast.success(
+        'Erro ao deletar a tarefa, por favor tente novamente',
+        {
+          style: {
+            background: '#f5202b',
+            color: '#fff',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        }
+      )
+    }
+    onDeleteSuccess(task.id)
+    setDeleteIsLoading(false)
+  }
+
   const getStatusClasses = () => {
     if (task.status === 'done') {
       return 'bg-brend-primary text-brend-primary'
@@ -40,7 +71,7 @@ const TaskItem = ({ task, handleCheckboxChange, handleDeleteClick }) => {
           />
           {task.status === 'done' && <CheckIcon className="animate-bounce" />}
           {task.status === 'in_progress' && (
-            <LoaderIcon className="animate-spin" />
+            <LoaderIcon className="animate-spin text-brend-secundary" />
           )}
           {task.status === 'not_started' && (
             <ClosedIcon className="animate-pulse" />
@@ -49,8 +80,16 @@ const TaskItem = ({ task, handleCheckboxChange, handleDeleteClick }) => {
         {task.title}
       </div>
       <div className="flex items-center gap-2">
-        <Button color="ghost" onClick={() => handleDeleteClick(task.id)}>
-          <TrashIcon className="text-brend-notStarted" />
+        <Button
+          color="ghost"
+          onClick={handleDeleteClick}
+          disabled={deleteIsLoading}
+        >
+          {deleteIsLoading ? (
+            <LoaderIcon className="animate-spin text-brend-lightGrey" />
+          ) : (
+            <TrashIcon className="text-brend-notStarted" />
+          )}
         </Button>
         <a href="#" className="transition-opacity hover:opacity-80">
           <DetailsIcon className="transition-transform duration-500 hover:scale-150" />
@@ -69,7 +108,7 @@ TaskItem.propTypes = {
     status: PropTypes.oneOf(['done', 'in_progress', 'not_started']).isRequired,
   }),
   handleCheckboxChange: PropTypes.func.isRequired,
-  handleDeleteClick: PropTypes.func.isRequired,
+  onDeleteSuccess: PropTypes.func.isRequired,
 }
 
 export default TaskItem

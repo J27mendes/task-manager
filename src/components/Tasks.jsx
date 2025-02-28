@@ -32,27 +32,7 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time === 'evening')
 
-  const handleTaskDeleteClick = async (taskId) => {
-    const response = await fetch(
-      `http://localhost:3000/TaskManager/${taskId}`,
-      {
-        method: 'DELETE',
-      }
-    )
-
-    if (!response.ok) {
-      return toast.success(
-        'Erro ao deletar a tarefa, por favor tente novamente',
-        {
-          style: {
-            background: '#f5202b',
-            color: '#fff',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        }
-      )
-    }
+  const onTaskDeleteSuccess = async (taskId) => {
     const newTasks = tasks.filter((task) => task.id !== taskId)
     toast.success('Tarefa deletada com sucesso', {
       style: {
@@ -64,6 +44,7 @@ const Tasks = () => {
     })
     return setTasks(newTasks)
   }
+
   const handleTaskCheckboxChange = (taskId) => {
     const newTasks = tasks.map((task) => {
       if (task.id !== taskId) {
@@ -148,7 +129,7 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>
@@ -159,7 +140,7 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>
@@ -170,7 +151,7 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>
