@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -8,15 +8,26 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
-import TaskManager from '../constants/taskManager'
 import AddTaskModal from './AddTaskModal'
 import Button from './Button'
 import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState(TaskManager)
+  const [tasks, setTasks] = useState([])
   const [openModal, setOpenModal] = useState(false)
+
+  useEffect(() => {
+    const fetchTaskManager = async () => {
+      const response = await fetch('http://localhost:3000/TaskManager', {
+        method: 'GET',
+      })
+      const data = await response.json()
+      setTasks(data)
+    }
+    fetchTaskManager()
+  }, [])
+
   const morningTasks = tasks.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks.filter((task) => task.time === 'evening')
