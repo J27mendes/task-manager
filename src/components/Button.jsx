@@ -33,7 +33,7 @@ const Button = ({
   )
 }
 
-Button.PropTypes = {
+Button.propTypes = {
   children: PropTypes.node.isRequired,
   color: PropTypes.oneOf(['primary', 'ghost', 'secundary']),
   size: PropTypes.oneOf(['small', 'large']),

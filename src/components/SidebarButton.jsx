@@ -19,9 +19,9 @@ const SidebarButton = ({ children, color }) => {
   )
 }
 
-SidebarButton.PropTypes = {
+SidebarButton.propTypes = {
   children: PropTypes.node.isRequired,
-  color: PropTypes(['unselected', 'selected']),
+  color: PropTypes.oneOf(['unselected', 'selected']),
 }
 
 export default SidebarButton

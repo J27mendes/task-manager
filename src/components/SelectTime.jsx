@@ -24,7 +24,7 @@ const SelectTime = forwardRef(({ props, errorMessage }, ref) => {
 })
 
 SelectTime.displayName = 'SelectTime'
-SelectTime.PropTypes = {
+SelectTime.propTypes = {
   errorMessage: PropTypes.string,
 }
 

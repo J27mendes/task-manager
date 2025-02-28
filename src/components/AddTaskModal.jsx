@@ -125,7 +125,7 @@ const AddTaskModal = ({ isOpen, handleClose, handleSubmit }) => {
   )
 }
 
-AddTaskModal.prototype = {
+AddTaskModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
