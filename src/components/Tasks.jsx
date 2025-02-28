@@ -86,7 +86,25 @@ const Tasks = () => {
     setTasks(newTasks)
   }
 
-  const handleAddTask = (nextTask) => {
+  const handleAddTask = async (nextTask) => {
+    const response = await fetch('http://localhost:3000/TaskManager', {
+      method: 'POST',
+      body: JSON.stringify(nextTask),
+    })
+
+    if (!response.ok) {
+      return toast.success(
+        'Erro ao adicionar tarefa, por favor tente novamente',
+        {
+          style: {
+            background: '#f5202b',
+            color: '#fff',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        }
+      )
+    }
     setTasks([...tasks, nextTask])
     toast.success('Tarefa adicionada com sucesso', {
       style: {
