@@ -1,5 +1,7 @@
 import AddIcon from './Add.svg?react'
+import ArrowLeftIcon from './arrow-left.svg?react'
 import CheckIcon from './check.svg?react'
+import ChevronRightIcon from './chevron-right.svg?react'
 import ClosedIcon from './closed.svg?react'
 import CloudsunIcon from './cloud-sun.svg?react'
 import DetailsIcon from './Details.svg?react'
@@ -13,7 +15,9 @@ import TrashIcon from './trash.svg?react'
 
 export {
   AddIcon,
+  ArrowLeftIcon,
   CheckIcon,
+  ChevronRightIcon,
   ClosedIcon,
   CloudsunIcon,
   DetailsIcon,

@@ -19,6 +19,7 @@ export default {
           notStarted: '#fE5A99',
           divider: '#F4F4F5',
           time: '#9A7C9F',
+          danger: '#f5202b',
         },
       },
     },
