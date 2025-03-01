@@ -139,6 +139,11 @@ const Tasks = () => {
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
           <TasksDetach text={'Manhã'} icon={<SunIcon />} />
+          {morningTasks.length === 0 && (
+            <p className="text-sm text-brend-time">
+              Nenhuma tarefa cadastrada para o periodo da manhã
+            </p>
+          )}
           {morningTasks.map((task) => (
             <TaskItem
               task={task}
@@ -150,6 +155,11 @@ const Tasks = () => {
         </div>
         <div className="my-6 space-y-3">
           <TasksDetach text={'Tarde'} icon={<CloudsunIcon />} />
+          {afternoonTasks.length === 0 && (
+            <p className="text-sm text-brend-time">
+              Nenhuma tarefa cadastrada para o periodo da tarde
+            </p>
+          )}
           {afternoonTasks.map((task) => (
             <TaskItem
               task={task}
@@ -161,6 +171,11 @@ const Tasks = () => {
         </div>
         <div className="space-y-3">
           <TasksDetach text={'Noite'} icon={<MoonIcon />} />
+          {eveningTasks.length === 0 && (
+            <p className="text-sm text-brend-time">
+              Nenhuma tarefa cadastrada para o periodo da noite
+            </p>
+          )}
           {eveningTasks.map((task) => (
             <TaskItem
               task={task}
