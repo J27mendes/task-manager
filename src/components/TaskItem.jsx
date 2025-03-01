@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import {
@@ -91,9 +92,9 @@ const TaskItem = ({ task, handleCheckboxChange, onDeleteSuccess }) => {
             <TrashIcon className="text-brend-notStarted" />
           )}
         </Button>
-        <a href="#" className="transition-opacity hover:opacity-80">
+        <Link to={`/TaskManager/${task.id}`}>
           <DetailsIcon className="transition-transform duration-500 hover:scale-150" />
-        </a>
+        </Link>
       </div>
     </div>
   )
