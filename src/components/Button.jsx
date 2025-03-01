@@ -43,8 +43,8 @@ const Button = ({
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  color: PropTypes.oneOf(['primary', 'ghost', 'secundary']),
-  size: PropTypes.oneOf(['small', 'large']),
+  color: PropTypes.oneOf(['primary', 'ghost', 'secundary', 'danger']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   className: PropTypes.string,
 }
 export default Button
