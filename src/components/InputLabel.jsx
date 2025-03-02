@@ -2,10 +2,7 @@ import PropTypes from 'prop-types'
 
 const InputLabel = (props) => {
   return (
-    <label
-      className="text-sm font-semibold text-brend-darkGrey"
-      htmlFor={props.id}
-    >
+    <label className="text-sm font-semibold text-brend-darkGrey">
       {props.children}
     </label>
   )

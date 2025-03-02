@@ -62,9 +62,9 @@ const AddTaskModal = ({
     }
     const bodyTask = {
       id: v4(),
-      title,
-      time,
-      description,
+      title: title.trim(),
+      time: time.trim(),
+      description: description.trim(),
       status: 'not_started',
     }
     setLoading(true)
@@ -116,8 +116,8 @@ const AddTaskModal = ({
           </p>
           <div className="flex w-[336px] flex-col space-y-4">
             <Input
-              id="title"
               label="Titulo"
+              id="title"
               placeholder={'Insira o titulo da tarefa'}
               errorMessage={titleError?.message}
               ref={titleRef}
@@ -129,8 +129,8 @@ const AddTaskModal = ({
               disabled={loading}
             />
             <Input
-              id="description"
               label="Descrição"
+              id="description"
               placeholder={'Descrição da tarefa'}
               errorMessage={descriptionError?.message}
               ref={descriptionRef}

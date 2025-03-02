@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -16,13 +17,14 @@ import Sidebar from '../components/Sidebar'
 const TaskDetailsPage = () => {
   const { taskId } = useParams()
   const [task, setTask] = useState()
-  const [errors, setErrors] = useState([])
-  const [saveLoading, setSaveLoading] = useState(false)
   const navigate = useNavigate()
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    reset,
+  } = useForm()
 
-  const titleRef = useRef()
-  const timeRef = useRef()
-  const descriptionRef = useRef()
   const handleBackClick = () => {
     navigate(-1)
   }
@@ -35,68 +37,38 @@ const TaskDetailsPage = () => {
       )
       const data = await response.json()
       setTask(data)
+      reset(data)
     }
     fetchTask()
-  }, [taskId])
+  }, [taskId, reset])
 
-  const handleSaveClick = async () => {
-    const title = titleRef.current.value
-    const time = timeRef.current.value
-    const description = descriptionRef.current.value
-
-    const newErrors = []
-    if (!title.trim()) {
-      newErrors.push({
-        inputName: 'title',
-        message: 'O titulo é obrigatório.',
-      })
-    }
-    if (!time.trim()) {
-      newErrors.push({
-        inputName: 'time',
-        message: 'Selecione o horário desejado.',
-      })
-    }
-    if (!description.trim()) {
-      newErrors.push({
-        inputName: 'description',
-        message: 'A descrição é obrigatória.',
-      })
-    }
-
-    setErrors(newErrors)
-    if (newErrors.length > 0) {
-      setSaveLoading(false)
-      return
-    }
-
-    setSaveLoading(true)
+  const handleSaveClick = async (data) => {
     const response = await fetch(
       `http://localhost:3000/TaskManager/${task.id}`,
       {
         method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title,
-          time,
-          description,
+          title: data.title.trim(),
+          time: data.time.trim(),
+          description: data.description.trim(),
         }),
       }
     )
-
     if (!response.ok) {
-      toast.success('Erro ao atualizar a tarefa, por favor tente novamente', {
-        style: {
-          background: '#f5202b',
-          color: '#fff',
-          fontSize: '20px',
-          justifyContent: 'center',
-        },
-      })
-      return setSaveLoading(false)
+      return toast.success(
+        'Erro ao atualizar a tarefa, por favor tente novamente',
+        {
+          style: {
+            background: '#f5202b',
+            color: '#fff',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        }
+      )
     }
-    const updateTask = await response.json()
-    setTask(updateTask)
-    setSaveLoading(false)
+
     toast.success('Tarefa atualizada com sucesso', {
       style: {
         color: '#00AD85',
@@ -137,12 +109,6 @@ const TaskDetailsPage = () => {
     navigate(-1)
   }
 
-  const titleError = errors.find((error) => error.inputName === 'title')
-  const timeError = errors.find((error) => error.inputName === 'time')
-  const descriptionError = errors.find(
-    (error) => error.inputName === 'description'
-  )
-
   return (
     <div className="flex">
       <Sidebar />
@@ -175,46 +141,51 @@ const TaskDetailsPage = () => {
             Deletar Tarefa
           </Button>
         </div>
-        <div className="space-y-6 rounded-xl bg-white p-6">
-          <div>
-            <Input
-              id="titulo"
-              label="Nome"
-              defaultValue={task?.title}
-              disabled={saveLoading}
-              ref={titleRef}
-              errorMessage={titleError?.message}
-            />
+        <form onSubmit={handleSubmit(handleSaveClick)}>
+          <div className="space-y-6 rounded-xl bg-white p-6">
+            <div>
+              <Input
+                id="titulo"
+                label="Nome"
+                disabled={isSubmitting}
+                {...register('title', {
+                  require: 'O titulo é obrigatório!',
+                  validate: (value) => {
+                    if (!value.trim()) {
+                      return 'O titulo não pode estar vázio'
+                    }
+                    return true
+                  },
+                })}
+                errorMessage={errors?.title?.message}
+              />
+            </div>
+            <div>
+              <SelectTime
+                {...register('time')}
+                errorMessage={errors?.time?.message}
+                disabled={isSubmitting}
+              />
+            </div>
+            <div>
+              <Input
+                id="description"
+                label="Descrição"
+                errorMessage={errors?.description?.message}
+                {...register('description', {
+                  required: 'A descrição é obrigatória!',
+                })}
+                disabled={isSubmitting}
+              />
+            </div>
+            <div className="flex w-full justify-end gap-3">
+              <Button size="medium" type="submit" disabled={isSubmitting}>
+                {isSubmitting && <LoaderIcon className="animate-spin" />}
+                Salvar
+              </Button>
+            </div>
           </div>
-          <div>
-            <SelectTime
-              defaultValue={task?.time}
-              ref={timeRef}
-              errorMessage={timeError?.message}
-              disabled={saveLoading}
-            />
-          </div>
-          <div>
-            <Input
-              id="description"
-              label="Descrição"
-              defaultValue={task?.description}
-              errorMessage={descriptionError?.message}
-              ref={descriptionRef}
-              disabled={saveLoading}
-            />
-          </div>
-          <div className="flex w-full justify-end gap-3">
-            <Button
-              size="medium"
-              onClick={handleSaveClick}
-              disabled={saveLoading}
-            >
-              {saveLoading && <LoaderIcon className="animate-spin" />}
-              Salvar
-            </Button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   )
