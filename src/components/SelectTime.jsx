@@ -4,7 +4,7 @@ import { forwardRef } from 'react'
 import InputErrorMessage from './InputErrorMessage;'
 import InputLabel from './InputLabel'
 
-const SelectTime = forwardRef(({ props, disabled, errorMessage }, ref) => {
+const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
   return (
     <div className="flex flex-col gap-1 text-left">
       <InputLabel htmlFor="time">Horário</InputLabel>
