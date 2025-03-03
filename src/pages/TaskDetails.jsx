@@ -68,7 +68,7 @@ const TaskDetailsPage = () => {
         }
       )
     }
-
+    navigate(-1)
     toast.success('Tarefa atualizada com sucesso', {
       style: {
         color: '#00AD85',
