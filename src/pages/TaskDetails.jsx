@@ -50,13 +50,13 @@ const TaskDetailsPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: data.title.trim(),
-          time: data.time.trim(),
+          time: data.time,
           description: data.description.trim(),
         }),
       }
     )
     if (!response.ok) {
-      return toast.success(
+      return toast.error(
         'Erro ao atualizar a tarefa, por favor tente novamente',
         {
           style: {
@@ -87,7 +87,7 @@ const TaskDetailsPage = () => {
     )
 
     if (!response.ok) {
-      return toast.success(
+      return toast.error(
         'Erro ao deletar a tarefa, por favor tente novamente',
         {
           style: {
@@ -162,9 +162,11 @@ const TaskDetailsPage = () => {
             </div>
             <div>
               <SelectTime
-                {...register('time')}
                 errorMessage={errors?.time?.message}
                 disabled={isSubmitting}
+                {...register('time', {
+                  required: true,
+                })}
               />
             </div>
             <div>
