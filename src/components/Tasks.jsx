@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -14,26 +15,27 @@ import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState([])
-  const [openModal, setOpenModal] = useState(false)
-
-  useEffect(() => {
-    const fetchTaskManager = async () => {
+  const queryClient = useQueryClient()
+  const { data: tasks } = useQuery({
+    queryKey: ['TaskManager'],
+    queryFn: async () => {
       const response = await fetch('http://localhost:3000/TaskManager', {
         method: 'GET',
       })
-      const data = await response.json()
-      setTasks(data)
-    }
-    fetchTaskManager()
-  }, [])
+      const tasks = await response.json()
+      return tasks
+    },
+  })
 
-  const morningTasks = tasks.filter((task) => task.time === 'morning')
-  const afternoonTasks = tasks.filter((task) => task.time === 'afternoon')
-  const eveningTasks = tasks.filter((task) => task.time === 'evening')
+  const [openModal, setOpenModal] = useState(false)
+  const morningTasks = tasks?.filter((task) => task.time === 'morning')
+  const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
+  const eveningTasks = tasks?.filter((task) => task.time === 'evening')
 
   const onTaskDeleteSuccess = async (taskId) => {
-    const newTasks = tasks.filter((task) => task.id !== taskId)
+    queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
+      currentTasks.filter((task) => task.id !== taskId)
+    )
     toast.success('Tarefa deletada com sucesso', {
       style: {
         background: '#f5202b',
@@ -42,52 +44,50 @@ const Tasks = () => {
         justifyContent: 'center',
       },
     })
-    return setTasks(newTasks)
   }
+  const handleTaskCheckboxChange = async (taskId) => {
+    const taskToUpdate = tasks?.find((task) => task.id === taskId)
+    if (!taskToUpdate) return
 
-  const handleTaskCheckboxChange = (taskId) => {
-    const newTasks = tasks.map((task) => {
-      if (task.id !== taskId) {
-        return task
-      }
-      if (task.status === 'not_started') {
-        toast.success('Tarefa em progresso', {
-          style: {
-            color: '#FFAA04',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
-        return { ...task, status: 'in_progress' }
-      }
-      if (task.status === 'in_progress') {
-        toast.success('Tarefa concluida', {
-          style: {
-            color: '#00AD85',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
-        return { ...task, status: 'done' }
-      }
-      if (task.status === 'done') {
-        toast.success('Tarefa não iniciada', {
-          style: {
-            color: '#fE5A99',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
-        return { ...task, status: 'not_started' }
-      }
+    let newStatus
+    if (taskToUpdate.status === 'not_started') newStatus = 'in_progress'
+    else if (taskToUpdate.status === 'in_progress') newStatus = 'done'
+    else newStatus = 'not_started'
 
-      return task
+    const toastMessages = {
+      not_started: { text: 'Tarefa não iniciada', color: '#fE5A99' },
+      in_progress: { text: 'Tarefa em progresso', color: '#FFAA04' },
+      done: { text: 'Tarefa concluída', color: '#00AD85' },
+    }
+
+    toast.success(toastMessages[newStatus].text, {
+      style: {
+        color: toastMessages[newStatus].color,
+        fontSize: '20px',
+        justifyContent: 'center',
+      },
     })
-    setTasks(newTasks)
+
+    try {
+      await fetch(`http://localhost:3000/TaskManager/${taskId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      })
+      queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
+        currentTasks.map((task) =>
+          task.id === taskId ? { ...task, status: newStatus } : task
+        )
+      )
+    } catch (error) {
+      toast.error('Erro ao atualizar a tarefa')
+    }
   }
 
   const handleAddTask = async (nextTask) => {
-    setTasks([...tasks, nextTask])
+    queryClient.setQueryData(['TaskManager'], (currentTasks = []) => {
+      return [...currentTasks, nextTask]
+    })
     toast.success('Tarefa adicionada com sucesso', {
       style: {
         color: '#00AD85',
@@ -139,12 +139,12 @@ const Tasks = () => {
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
           <TasksDetach text={'Manhã'} icon={<SunIcon />} />
-          {morningTasks.length === 0 && (
+          {morningTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da manhã
             </p>
           )}
-          {morningTasks.map((task) => (
+          {morningTasks?.map((task) => (
             <TaskItem
               task={task}
               key={task.id}
@@ -155,12 +155,12 @@ const Tasks = () => {
         </div>
         <div className="my-6 space-y-3">
           <TasksDetach text={'Tarde'} icon={<CloudsunIcon />} />
-          {afternoonTasks.length === 0 && (
+          {afternoonTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da tarde
             </p>
           )}
-          {afternoonTasks.map((task) => (
+          {afternoonTasks?.map((task) => (
             <TaskItem
               task={task}
               key={task.id}
@@ -171,12 +171,12 @@ const Tasks = () => {
         </div>
         <div className="space-y-3">
           <TasksDetach text={'Noite'} icon={<MoonIcon />} />
-          {eveningTasks.length === 0 && (
+          {eveningTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da noite
             </p>
           )}
-          {eveningTasks.map((task) => (
+          {eveningTasks?.map((task) => (
             <TaskItem
               task={task}
               key={task.id}
