@@ -6,10 +6,10 @@ import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CSSTransition } from 'react-transition-group'
-import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
+import { errorToast, successToast } from '../utils'
 import Button from './Button'
 import Input from './Input'
 import SelectTime from './SelectTime'
@@ -58,13 +58,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
         queryClient.setQueryData(['TaskManager'], (currentTasks = []) => {
           return [...currentTasks, newTask]
         })
-        toast.success('Tarefa adicionada com sucesso', {
-          style: {
-            color: '#00AD85',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
+        successToast('Tarefa adicionada com sucesso!')
         handleClose()
         reset({
           defaultValues: {
@@ -75,14 +69,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
         })
       },
       onError: () => {
-        toast.success('Erro ao adicionar tarefa, por favor tente novamente', {
-          style: {
-            background: '#f5202b',
-            color: '#fff',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
+        errorToast('Erro ao adicionar tarefa, por favor tente novamente!')
       },
     })
   }

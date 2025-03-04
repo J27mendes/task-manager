@@ -9,6 +9,8 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
+import { toastMessages } from '../utils'
+import { errorToast } from '../utils'
 import AddTaskModal from './AddTaskModal'
 import Button from './Button'
 import TaskItem from './TaskItem'
@@ -41,12 +43,6 @@ const Tasks = () => {
     else if (taskToUpdate.status === 'in_progress') newStatus = 'done'
     else newStatus = 'not_started'
 
-    const toastMessages = {
-      not_started: { text: 'Tarefa não iniciada', color: '#fE5A99' },
-      in_progress: { text: 'Tarefa em progresso', color: '#FFAA04' },
-      done: { text: 'Tarefa concluída', color: '#00AD85' },
-    }
-
     toast.success(toastMessages[newStatus].text, {
       style: {
         color: toastMessages[newStatus].color,
@@ -67,7 +63,7 @@ const Tasks = () => {
         )
       )
     } catch (error) {
-      toast.error('Erro ao atualizar a tarefa')
+      errorToast('Erro ao atualizar a tarefa')
     }
   }
 

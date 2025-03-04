@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
 
 import {
   CheckIcon,
@@ -10,6 +9,7 @@ import {
   LoaderIcon,
   TrashIcon,
 } from '../assets/icons'
+import { errorToast, successToast } from '../utils'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxChange }) => {
@@ -33,23 +33,10 @@ const TaskItem = ({ task, handleCheckboxChange }) => {
         queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
           currentTasks.filter((oldTask) => oldTask.id !== task.id)
         )
-        toast.success('Tarefa deletada com sucesso', {
-          style: {
-            color: '#f5202b',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
+        successToast('Tarefa deletada com sucesso!')
       },
       onError: () => {
-        toast.error('Erro ao deletar a tarefa', {
-          style: {
-            background: '#f5202b',
-            color: '#fff',
-            fontSize: '20px',
-            justifyContent: 'center',
-          },
-        })
+        errorToast('Erro ao deletar tarefa, por favor tente novamente!')
       },
     })
   }
