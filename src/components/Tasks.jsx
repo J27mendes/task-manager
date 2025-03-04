@@ -9,7 +9,7 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
-import { toastMessages } from '../utils'
+import { successToast, toastMessages } from '../utils'
 import { errorToast } from '../utils'
 import AddTaskModal from './AddTaskModal'
 import Button from './Button'
@@ -67,6 +67,20 @@ const Tasks = () => {
     }
   }
 
+  const handleClearTasks = async () => {
+    try {
+      await fetch('http://localhost:3000/TaskManager', {
+        method: 'DELETE',
+      })
+
+      queryClient.setQueryData(['TaskManager'], [])
+
+      successToast('Todas as tarefas foram removidas com sucesso!')
+    } catch (error) {
+      errorToast('Erro ao limpar as tarefas')
+    }
+  }
+
   return (
     <div className="w-full space-y-6 px-8 py-16">
       <div className="flex w-full justify-between">
@@ -77,7 +91,7 @@ const Tasks = () => {
           <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
         </div>
         <div className="flex items-center gap-3">
-          <Button color={'ghost'}>
+          <Button color={'ghost'} onClick={handleClearTasks}>
             Limpar Tarefas <TrashIcon />
           </Button>
           <Button color={'primary'} onClick={() => setOpenModal(true)}>
