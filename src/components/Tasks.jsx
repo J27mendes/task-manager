@@ -32,19 +32,6 @@ const Tasks = () => {
   const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks?.filter((task) => task.time === 'evening')
 
-  const onTaskDeleteSuccess = async (taskId) => {
-    queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
-      currentTasks.filter((task) => task.id !== taskId)
-    )
-    toast.success('Tarefa deletada com sucesso', {
-      style: {
-        background: '#f5202b',
-        color: '#fff',
-        fontSize: '20px',
-        justifyContent: 'center',
-      },
-    })
-  }
   const handleTaskCheckboxChange = async (taskId) => {
     const taskToUpdate = tasks?.find((task) => task.id === taskId)
     if (!taskToUpdate) return
@@ -149,7 +136,6 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>
@@ -165,7 +151,6 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>
@@ -181,7 +166,6 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
-              onDeleteSuccess={onTaskDeleteSuccess}
             />
           ))}
         </div>

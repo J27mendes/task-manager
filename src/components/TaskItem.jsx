@@ -1,5 +1,5 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
@@ -12,34 +12,46 @@ import {
 } from '../assets/icons'
 import Button from './Button'
 
-const TaskItem = ({ task, handleCheckboxChange, onDeleteSuccess }) => {
-  const [deleteIsLoading, setDeleteIsLoading] = useState(false)
+const TaskItem = ({ task, handleCheckboxChange }) => {
+  const queryClient = useQueryClient()
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['deleteTask', task.id],
+    mutationFn: async () => {
+      const response = await fetch(
+        `http://localhost:3000/TaskManager/${task.id}`,
+        {
+          method: 'DELETE',
+        }
+      )
+      return response.json()
+    },
+  })
 
   const handleDeleteClick = async () => {
-    setDeleteIsLoading(true)
-    const response = await fetch(
-      `http://localhost:3000/TaskManager/${task.id}`,
-      {
-        method: 'DELETE',
-      }
-    )
-
-    if (!response.ok) {
-      setDeleteIsLoading(false)
-      return toast.success(
-        'Erro ao deletar a tarefa, por favor tente novamente',
-        {
+    mutate(undefined, {
+      onSuccess: () => {
+        queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
+          currentTasks.filter((oldTask) => oldTask.id !== task.id)
+        )
+        toast.success('Tarefa deletada com sucesso', {
+          style: {
+            color: '#f5202b',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
+      },
+      onError: () => {
+        toast.error('Erro ao deletar a tarefa', {
           style: {
             background: '#f5202b',
             color: '#fff',
             fontSize: '20px',
             justifyContent: 'center',
           },
-        }
-      )
-    }
-    onDeleteSuccess(task.id)
-    setDeleteIsLoading(false)
+        })
+      },
+    })
   }
 
   const getStatusClasses = () => {
@@ -81,12 +93,8 @@ const TaskItem = ({ task, handleCheckboxChange, onDeleteSuccess }) => {
         {task.title}
       </div>
       <div className="flex items-center gap-2">
-        <Button
-          color="ghost"
-          onClick={handleDeleteClick}
-          disabled={deleteIsLoading}
-        >
-          {deleteIsLoading ? (
+        <Button color="ghost" onClick={handleDeleteClick} disabled={isPending}>
+          {isPending ? (
             <LoaderIcon className="animate-spin text-brend-lightGrey" />
           ) : (
             <TrashIcon className="text-brend-notStarted" />
