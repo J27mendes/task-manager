@@ -117,7 +117,6 @@ TaskItem.propTypes = {
     status: PropTypes.oneOf(['done', 'in_progress', 'not_started']).isRequired,
   }),
   handleCheckboxChange: PropTypes.func.isRequired,
-  onDeleteSuccess: PropTypes.func.isRequired,
 }
 
 export default TaskItem

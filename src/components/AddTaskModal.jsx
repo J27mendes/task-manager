@@ -1,10 +1,12 @@
 import './AddTaskModal.css'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import { CSSTransition } from 'react-transition-group'
+import { toast } from 'sonner'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
@@ -12,14 +14,25 @@ import Button from './Button'
 import Input from './Input'
 import SelectTime from './SelectTime'
 
-const AddTaskModal = ({
-  isOpen,
-  handleClose,
-  onSubmitSuccess,
-  onSubmitError,
-}) => {
-  const [loading, setLoading] = useState(false)
+const AddTaskModal = ({ isOpen, handleClose }) => {
   const nodeRef = useRef()
+  const queryClient = useQueryClient()
+  const { mutate, isPending } = useMutation({
+    mutationKey: ['addTask'],
+    mutationFn: async (task) => {
+      const response = await fetch('http://localhost:3000/TaskManager', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(task),
+      })
+      if (!response.ok) {
+        throw new Error()
+      }
+      return response.json()
+    },
+  })
   const {
     register,
     formState: { errors, isSubmitting },
@@ -33,34 +46,43 @@ const AddTaskModal = ({
     },
   })
   const handleSaveClick = async (data) => {
-    setLoading(true)
-    const response = await fetch('http://localhost:3000/TaskManager', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: v4(),
-        title: data.title.trim(),
-        time: data.time,
-        description: data.description.trim(),
-        status: 'not_started',
-      }),
-    })
-
-    if (!response.ok) {
-      setLoading(false)
-      return onSubmitError()
+    const newTask = {
+      id: v4(),
+      title: data.title.trim(),
+      time: data.time,
+      description: data.description.trim(),
+      status: 'not_started',
     }
-    const result = await response.json()
-    onSubmitSuccess(result)
-    setLoading(false)
-    handleClose()
-    reset({
-      defaultValues: {
-        title: '',
-        time: 'morning',
-        description: '',
+    mutate(newTask, {
+      onSuccess: () => {
+        queryClient.setQueryData(['TaskManager'], (currentTasks = []) => {
+          return [...currentTasks, newTask]
+        })
+        toast.success('Tarefa adicionada com sucesso', {
+          style: {
+            color: '#00AD85',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
+        handleClose()
+        reset({
+          defaultValues: {
+            title: '',
+            time: 'morning',
+            description: '',
+          },
+        })
+      },
+      onError: () => {
+        toast.success('Erro ao adicionar tarefa, por favor tente novamente', {
+          style: {
+            background: '#f5202b',
+            color: '#fff',
+            fontSize: '20px',
+            justifyContent: 'center',
+          },
+        })
       },
     })
   }
@@ -151,7 +173,7 @@ const AddTaskModal = ({
                   disabled={isSubmitting}
                 >
                   Salvar
-                  {loading && (
+                  {isPending && (
                     <LoaderIcon
                       className="ml-2 animate-spin text-brend-secundary"
                       style={{ animationDuration: '2s' }}
@@ -171,7 +193,6 @@ const AddTaskModal = ({
 AddTaskModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  onSubmitSuccess: PropTypes.func.isRequired,
 }
 
 export default AddTaskModal

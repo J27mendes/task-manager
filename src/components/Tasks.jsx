@@ -71,33 +71,6 @@ const Tasks = () => {
     }
   }
 
-  const handleAddTask = async (nextTask) => {
-    queryClient.setQueryData(['TaskManager'], (currentTasks = []) => {
-      return [...currentTasks, nextTask]
-    })
-    toast.success('Tarefa adicionada com sucesso', {
-      style: {
-        color: '#00AD85',
-        fontSize: '20px',
-        justifyContent: 'center',
-      },
-    })
-  }
-
-  const handleTaskError = () => {
-    return toast.success(
-      'Erro ao adicionar tarefa, por favor tente novamente',
-      {
-        style: {
-          background: '#f5202b',
-          color: '#fff',
-          fontSize: '20px',
-          justifyContent: 'center',
-        },
-      }
-    )
-  }
-
   return (
     <div className="w-full space-y-6 px-8 py-16">
       <div className="flex w-full justify-between">
@@ -118,8 +91,6 @@ const Tasks = () => {
           <AddTaskModal
             isOpen={openModal}
             handleClose={() => setOpenModal(false)}
-            onSubmitSuccess={handleAddTask}
-            onSubmitError={handleTaskError}
           />
         </div>
       </div>
