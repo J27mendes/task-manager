@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
@@ -9,24 +9,13 @@ import {
   LoaderIcon,
   TrashIcon,
 } from '../assets/icons'
+import { useDeleteTasks } from '../hooks/data/useDeleteTasks'
 import { errorToast, successToast } from '../utils'
 import Button from './Button'
 
 const TaskItem = ({ task, handleCheckboxChange }) => {
   const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['deleteTask', task.id],
-    mutationFn: async () => {
-      const response = await fetch(
-        `http://localhost:3000/TaskManager/${task.id}`,
-        {
-          method: 'DELETE',
-        }
-      )
-      return response.json()
-    },
-  })
-
+  const { mutate, isPending } = useDeleteTasks(task.id)
   const handleDeleteClick = async () => {
     mutate(undefined, {
       onSuccess: () => {
