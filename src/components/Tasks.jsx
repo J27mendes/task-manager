@@ -10,6 +10,7 @@ import {
   TrashIcon,
 } from '../assets/icons'
 import { useGetTasks } from '../hooks/data/useGetTasks'
+import { useUpdateTask } from '../hooks/data/useUpdateTask'
 import { successToast, toastMessages } from '../utils'
 import { errorToast } from '../utils'
 import AddTaskModal from './AddTaskModal'
@@ -21,9 +22,11 @@ const Tasks = () => {
   const queryClient = useQueryClient()
   const { data: tasks } = useGetTasks()
   const [openModal, setOpenModal] = useState(false)
+
   const morningTasks = tasks?.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks?.filter((task) => task.time === 'evening')
+  const { mutate, isPending } = useUpdateTask()
 
   const handleTaskCheckboxChange = async (taskId) => {
     const taskToUpdate = tasks?.find((task) => task.id === taskId)
@@ -41,21 +44,7 @@ const Tasks = () => {
         justifyContent: 'center',
       },
     })
-
-    try {
-      await fetch(`http://localhost:3000/TaskManager/${taskId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      })
-      queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
-        currentTasks.map((task) =>
-          task.id === taskId ? { ...task, status: newStatus } : task
-        )
-      )
-    } catch (error) {
-      errorToast('Erro ao atualizar a tarefa')
-    }
+    mutate({ taskId, newStatus })
   }
 
   const handleClearTasks = async () => {
@@ -108,6 +97,7 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
+              disabled={isPending}
             />
           ))}
         </div>
@@ -123,6 +113,7 @@ const Tasks = () => {
               task={task}
               key={task.id}
               handleCheckboxChange={handleTaskCheckboxChange}
+              disabled={isPending}
             />
           ))}
         </div>
