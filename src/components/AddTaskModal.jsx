@@ -1,6 +1,5 @@
 import './AddTaskModal.css'
 
-import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
@@ -17,7 +16,6 @@ import SelectTime from './SelectTime'
 
 const AddTaskModal = ({ isOpen, handleClose }) => {
   const nodeRef = useRef()
-  const queryClient = useQueryClient()
   const { mutate, isPending } = useAddTask()
   const {
     register,
@@ -41,9 +39,6 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
     }
     mutate(newTask, {
       onSuccess: () => {
-        queryClient.setQueryData(['TaskManager'], (currentTasks = []) => {
-          return [...currentTasks, newTask]
-        })
         successToast('Tarefa adicionada com sucesso!')
         handleClose()
         reset({
