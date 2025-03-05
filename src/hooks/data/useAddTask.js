@@ -1,0 +1,20 @@
+import { useMutation } from '@tanstack/react-query'
+
+export const useAddTask = () => {
+  return useMutation({
+    mutationKey: ['addTask'],
+    mutationFn: async (task) => {
+      const response = await fetch('http://localhost:3000/TaskManager', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(task),
+      })
+      if (!response.ok) {
+        throw new Error()
+      }
+      return response.json()
+    },
+  })
+}

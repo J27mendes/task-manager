@@ -1,6 +1,6 @@
 import './AddTaskModal.css'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import PropTypes from 'prop-types'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
@@ -9,6 +9,7 @@ import { CSSTransition } from 'react-transition-group'
 import { v4 } from 'uuid'
 
 import { LoaderIcon } from '../assets/icons'
+import { useAddTask } from '../hooks/data/useAddTask'
 import { errorToast, successToast } from '../utils'
 import Button from './Button'
 import Input from './Input'
@@ -17,22 +18,7 @@ import SelectTime from './SelectTime'
 const AddTaskModal = ({ isOpen, handleClose }) => {
   const nodeRef = useRef()
   const queryClient = useQueryClient()
-  const { mutate, isPending } = useMutation({
-    mutationKey: ['addTask'],
-    mutationFn: async (task) => {
-      const response = await fetch('http://localhost:3000/TaskManager', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(task),
-      })
-      if (!response.ok) {
-        throw new Error()
-      }
-      return response.json()
-    },
-  })
+  const { mutate, isPending } = useAddTask()
   const {
     register,
     formState: { errors, isSubmitting },
