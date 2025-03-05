@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -9,24 +8,23 @@ import {
   SunIcon,
   TrashIcon,
 } from '../assets/icons'
+import { useClearTasks } from '../hooks/data/useClearTasks'
 import { useGetTasks } from '../hooks/data/useGetTasks'
 import { useUpdateTask } from '../hooks/data/useUpdateTask'
-import { successToast, toastMessages } from '../utils'
-import { errorToast } from '../utils'
+import { toastMessages } from '../utils'
 import AddTaskModal from './AddTaskModal'
 import Button from './Button'
 import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
-  const queryClient = useQueryClient()
   const { data: tasks } = useGetTasks()
   const [openModal, setOpenModal] = useState(false)
-
   const morningTasks = tasks?.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks?.filter((task) => task.time === 'evening')
   const { mutate, isPending } = useUpdateTask()
+  const { mutate: clearTasks } = useClearTasks()
 
   const handleTaskCheckboxChange = async (taskId) => {
     const taskToUpdate = tasks?.find((task) => task.id === taskId)
@@ -47,20 +45,6 @@ const Tasks = () => {
     mutate({ taskId, newStatus })
   }
 
-  const handleClearTasks = async () => {
-    try {
-      await fetch('http://localhost:3000/TaskManager', {
-        method: 'DELETE',
-      })
-
-      queryClient.setQueryData(['TaskManager'], [])
-
-      successToast('Todas as tarefas foram removidas com sucesso!')
-    } catch (error) {
-      errorToast('Erro ao limpar as tarefas')
-    }
-  }
-
   return (
     <div className="w-full space-y-6 px-8 py-16">
       <div className="flex w-full justify-between">
@@ -71,7 +55,7 @@ const Tasks = () => {
           <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
         </div>
         <div className="flex items-center gap-3">
-          <Button color={'ghost'} onClick={handleClearTasks}>
+          <Button color={'ghost'} onClick={clearTasks}>
             Limpar Tarefas <TrashIcon />
           </Button>
           <Button color={'primary'} onClick={() => setOpenModal(true)}>
