@@ -5,7 +5,9 @@ import ChevronRightIcon from './chevron-right.svg?react'
 import ClosedIcon from './closed.svg?react'
 import CloudsunIcon from './cloud-sun.svg?react'
 import DetailsIcon from './Details.svg?react'
+import GlassWaterIcon from './glasswater.svg?react'
 import HomeIcon from './home.svg?react'
+import ListIcon from './list.svg?react'
 import LoaderIcon from './loader.svg?react'
 import MoonIcon from './moon.svg?react'
 import SunIcon from './sun.svg?react'
@@ -21,7 +23,9 @@ export {
   ClosedIcon,
   CloudsunIcon,
   DetailsIcon,
+  GlassWaterIcon,
   HomeIcon,
+  ListIcon,
   LoaderIcon,
   MoonIcon,
   SunIcon,

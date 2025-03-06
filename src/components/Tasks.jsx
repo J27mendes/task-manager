@@ -1,25 +1,16 @@
-import { useState } from 'react'
 import { toast } from 'sonner'
 
-import {
-  AddIcon,
-  CloudsunIcon,
-  MoonIcon,
-  SunIcon,
-  TrashIcon,
-} from '../assets/icons'
+import { CloudsunIcon, MoonIcon, SunIcon } from '../assets/icons'
 import { useClearTasks } from '../hooks/data/useClearTasks'
 import { useGetTasks } from '../hooks/data/useGetTasks'
 import { useUpdateTask } from '../hooks/data/useUpdateTask'
 import { toastMessages } from '../utils'
-import AddTaskModal from './AddTaskModal'
-import Button from './Button'
+import Header from './Header'
 import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
 
 const Tasks = () => {
   const { data: tasks } = useGetTasks()
-  const [openModal, setOpenModal] = useState(false)
   const morningTasks = tasks?.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks?.filter((task) => task.time === 'evening')
@@ -53,27 +44,11 @@ const Tasks = () => {
 
   return (
     <div className="w-full space-y-6 px-8 py-16">
-      <div className="flex w-full justify-between">
-        <div>
-          <span className="text-xs font-semibold text-brend-primary">
-            Minhas Tarefas
-          </span>
-          <h2 className="text-xl font-semibold">Minhas Tarefas</h2>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button color={'ghost'} onClick={clearTasks}>
-            Limpar Tarefas <TrashIcon />
-          </Button>
-          <Button color={'primary'} onClick={() => setOpenModal(true)}>
-            <AddIcon />
-            Nova Tarefa
-          </Button>
-          <AddTaskModal
-            isOpen={openModal}
-            handleClose={() => setOpenModal(false)}
-          />
-        </div>
-      </div>
+      <Header
+        subtitle={'Minhas Tarefas'}
+        title={'Minhas Tarefas'}
+        clearTasks={clearTasks}
+      />
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
           <TasksDetach text={'Manhã'} icon={<SunIcon />} />
