@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { errorToast, successToast } from '../../utils'
+import { errorToast } from '../../utils'
 
 export const useUpdateTask = () => {
   const queryClient = useQueryClient()
@@ -28,7 +28,6 @@ export const useUpdateTask = () => {
           task.id === taskId ? { ...task, status: newStatus } : task
         )
       )
-      successToast('Tarefa atualizada com sucesso!')
     },
     onError: () => {
       errorToast('Erro ao atualizar a tarefa, tente novamente!')

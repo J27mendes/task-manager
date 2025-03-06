@@ -35,14 +35,20 @@ const Tasks = () => {
     else if (taskToUpdate.status === 'in_progress') newStatus = 'done'
     else newStatus = 'not_started'
 
-    toast.success(toastMessages[newStatus].text, {
-      style: {
-        color: toastMessages[newStatus].color,
-        fontSize: '20px',
-        justifyContent: 'center',
-      },
-    })
-    mutate({ taskId, newStatus })
+    mutate(
+      { taskId, newStatus },
+      {
+        onSuccess: () => {
+          toast.success(toastMessages[newStatus].text, {
+            style: {
+              color: toastMessages[newStatus].color,
+              fontSize: '20px',
+              justifyContent: 'center',
+            },
+          })
+        },
+      }
+    )
   }
 
   return (
