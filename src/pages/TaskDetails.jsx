@@ -11,7 +11,7 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 import SelectTime from '../components/SelectTime'
 import Sidebar from '../components/Sidebar'
-import { useDeleteTaskId } from '../hooks/data/useDeleteTaskId'
+import { useDeleteTasks } from '../hooks/data/useDeleteTasks'
 import { useGetTaskId } from '../hooks/data/useGetTaskId'
 import { useUpdateTaskId } from '../hooks/data/useUpdateTaskId'
 import { errorToast, successToast } from '../utils'
@@ -27,7 +27,7 @@ const TaskDetailsPage = () => {
   } = useForm()
 
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
-    useDeleteTaskId(taskId)
+    useDeleteTasks(taskId)
 
   const { data: task } = useGetTaskId({ taskId, reset })
 
