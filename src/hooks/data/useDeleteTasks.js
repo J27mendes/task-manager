@@ -1,16 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 
+import { api } from '../../libs/api'
+
 export const useDeleteTasks = (taskId) => {
   return useMutation({
     mutationKey: ['deleteTask', taskId],
     mutationFn: async () => {
-      const response = await fetch(
-        `http://localhost:3000/TaskManager/${taskId}`,
-        {
-          method: 'DELETE',
-        }
-      )
-      return response.json()
+      const { data: deleteTask } = await api.delete(`${taskId}`)
+
+      return deleteTask
     },
   })
 }

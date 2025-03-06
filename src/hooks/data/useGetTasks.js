@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { api } from '../../libs/api'
+
 export const useGetTasks = () => {
   return useQuery({
     queryKey: ['TaskManager'],
     queryFn: async () => {
-      const response = await fetch('http://localhost:3000/TaskManager', {
-        method: 'GET',
-      })
-      const tasks = await response.json()
+      const { data: tasks } = await api.get('')
+
       return tasks
     },
   })

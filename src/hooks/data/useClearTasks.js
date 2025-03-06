@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { api } from '../../libs/api'
 import { errorToast, successToast } from '../../utils'
 
 export const useClearTasks = () => {
@@ -7,13 +8,10 @@ export const useClearTasks = () => {
   return useMutation({
     mutationKey: ['clearTasks'],
     mutationFn: async () => {
-      const response = await fetch('http://localhost:3000/TaskManager')
-      const allTasks = await response.json()
+      const { data: allTasks } = await api.get('')
 
       for (const tasks of allTasks) {
-        await fetch(`http://localhost:3000/TaskManager/${tasks.id}`, {
-          method: 'DELETE',
-        })
+        await api.delete(`${tasks.id}`)
       }
     },
     onSuccess: () => {

@@ -1,21 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { api } from '../../libs/api'
+
 export const useAddTask = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationKey: ['addTask'],
     mutationFn: async (task) => {
-      const response = await fetch('http://localhost:3000/TaskManager', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(task),
-      })
-      if (!response.ok) {
-        throw new Error()
-      }
-      const createdTask = await response.json()
+      const { data: createdTask } = await api.post(' ', task)
       return createdTask
     },
     onSuccess: (createdTask) => {

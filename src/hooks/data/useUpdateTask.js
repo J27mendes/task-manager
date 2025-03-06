@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { api } from '../../libs/api'
 import { errorToast } from '../../utils'
 
 export const useUpdateTask = () => {
@@ -7,20 +8,11 @@ export const useUpdateTask = () => {
   return useMutation({
     mutationKey: ['updateTaskStatus'],
     mutationFn: async ({ taskId, newStatus }) => {
-      const response = await fetch(
-        `http://localhost:3000/TaskManager/${taskId}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      )
+      const { data: updateTask } = await api.patch(`${taskId}`, {
+        status: newStatus,
+      })
 
-      if (!response.ok) {
-        throw new Error('Erro ao atualizar a tarefa')
-      }
-
-      return response.json()
+      return updateTask
     },
     onSuccess: (_, { taskId, newStatus }) => {
       queryClient.setQueryData(['TaskManager'], (currentTasks = []) =>
