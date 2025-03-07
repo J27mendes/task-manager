@@ -63,7 +63,7 @@ const TaskItem = ({ task, handleCheckboxChange }) => {
             <LoaderIcon className="animate-spin text-brend-secundary" />
           )}
           {task.status === 'not_started' && (
-            <ClosedIcon className="animate-pulse" />
+            <ClosedIcon className="animate-pulse text-brend-secundary" />
           )}
         </label>
         {task.title}

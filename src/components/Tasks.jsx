@@ -1,10 +1,7 @@
-import { toast } from 'sonner'
-
 import { CloudsunIcon, MoonIcon, SunIcon } from '../assets/icons'
 import { useClearTasks } from '../hooks/data/useClearTasks'
 import { useGetTasks } from '../hooks/data/useGetTasks'
-import { useUpdateTask } from '../hooks/data/useUpdateTask'
-import { toastMessages } from '../utils'
+import { useHandleTaskStatusChange } from '../hooks/data/useHandleTaskStatusChange'
 import Header from './Header'
 import TaskItem from './TaskItem'
 import TasksDetach from './TasksDetach'
@@ -14,33 +11,9 @@ const Tasks = () => {
   const morningTasks = tasks?.filter((task) => task.time === 'morning')
   const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
   const eveningTasks = tasks?.filter((task) => task.time === 'evening')
-  const { mutate, isPending } = useUpdateTask()
   const { mutate: clearTasks } = useClearTasks()
-
-  const handleTaskCheckboxChange = async (taskId) => {
-    const taskToUpdate = tasks?.find((task) => task.id === taskId)
-    if (!taskToUpdate) return
-
-    let newStatus
-    if (taskToUpdate.status === 'not_started') newStatus = 'in_progress'
-    else if (taskToUpdate.status === 'in_progress') newStatus = 'done'
-    else newStatus = 'not_started'
-
-    mutate(
-      { taskId, newStatus },
-      {
-        onSuccess: () => {
-          toast.success(toastMessages[newStatus].text, {
-            style: {
-              color: toastMessages[newStatus].color,
-              fontSize: '20px',
-              justifyContent: 'center',
-            },
-          })
-        },
-      }
-    )
-  }
+  const { handleTaskCheckboxChange, isPending } =
+    useHandleTaskStatusChange(tasks)
 
   return (
     <div className="w-full space-y-6 px-8 py-16">
@@ -61,8 +34,8 @@ const Tasks = () => {
             <TaskItem
               task={task}
               key={task.id}
-              handleCheckboxChange={handleTaskCheckboxChange}
               disabled={isPending}
+              handleCheckboxChange={handleTaskCheckboxChange}
             />
           ))}
         </div>
@@ -77,8 +50,8 @@ const Tasks = () => {
             <TaskItem
               task={task}
               key={task.id}
-              handleCheckboxChange={handleTaskCheckboxChange}
               disabled={isPending}
+              handleCheckboxChange={handleTaskCheckboxChange}
             />
           ))}
         </div>
@@ -93,6 +66,7 @@ const Tasks = () => {
             <TaskItem
               task={task}
               key={task.id}
+              disabled={isPending}
               handleCheckboxChange={handleTaskCheckboxChange}
             />
           ))}
