@@ -2,6 +2,7 @@ import AllCards from '../components/AllCards'
 import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
 import TaskItem from '../components/TaskItem'
+import WeatherCard from '../components/WeatherCard'
 import { useClearTasks } from '../hooks/data/useClearTasks'
 import { useGetTasks } from '../hooks/data/useGetTasks'
 import { useHandleTaskStatusChange } from '../hooks/data/useHandleTaskStatusChange'
@@ -37,12 +38,11 @@ const HomePage = () => {
               ))}
             </div>
           </div>
-          <div className="flex items-center justify-center space-y-6 rounded-[10px] bg-white p-6">
-            <h1>Pesquisa de clima diario</h1>
-          </div>
+          <WeatherCard />
         </div>
       </div>
     </div>
   )
 }
+
 export default HomePage
