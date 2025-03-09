@@ -1,21 +1,20 @@
-import axios from 'axios'
+import { apiWeather } from '../libs/apiWeather'
+import { getLocation } from './getLocation'
 
 export const fetchWeather = async () => {
-  if (!navigator.geolocation) {
-    throw new Error('Geolocalização não suportada pelo navegador.')
-  }
+  try {
+    const { latitude, longitude } = await getLocation()
 
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords
-      const weatherUrl = `http://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_APIKEY}&q=${latitude},${longitude}&days=1&lang=pt`
-
-      try {
-        const response = await axios.get(weatherUrl)
-        resolve(response.data)
-      } catch (error) {
-        reject(error)
-      }
+    const { data } = await apiWeather.get('forecast.json', {
+      params: {
+        q: `${latitude},${longitude}`,
+        days: 1,
+        lang: 'pt',
+      },
     })
-  })
+
+    return data
+  } catch (error) {
+    throw new Error(`Erro ao obter clima: ${error.message}`)
+  }
 }
