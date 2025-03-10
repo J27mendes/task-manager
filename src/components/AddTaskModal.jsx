@@ -40,14 +40,12 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
     mutate(newTask, {
       onSuccess: () => {
         successToast("Tarefa adicionada com sucesso!")
-        handleClose()
         reset({
-          defaultValues: {
-            title: "",
-            time: "morning",
-            description: "",
-          },
+          title: "",
+          time: "morning",
+          description: "",
         })
+        handleClose()
       },
       onError: () => {
         errorToast("Erro ao adicionar tarefa, por favor tente novamente!")
