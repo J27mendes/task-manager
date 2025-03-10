@@ -1,9 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { taskMutationKeys } from '../../keys/mutation'
-import { taskQueriesKeys } from '../../keys/queries'
-import { api } from '../../libs/api'
-import { errorToast } from '../../utils'
+import { taskMutationKeys } from "../../keys/mutation"
+import { taskQueriesKeys } from "../../keys/queries"
+import { api } from "../../libs/api"
+import { errorToast } from "../../utils"
 
 export const useUpdateTask = () => {
   const queryClient = useQueryClient()
@@ -24,7 +24,7 @@ export const useUpdateTask = () => {
       )
     },
     onError: () => {
-      errorToast('Erro ao atualizar a tarefa, tente novamente!')
+      errorToast("Erro ao atualizar a tarefa, tente novamente!")
     },
   })
 }

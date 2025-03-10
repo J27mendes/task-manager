@@ -1,5 +1,5 @@
-import { HomeIcon, TasksIcon } from '../assets/icons'
-import SidebarButton from './SidebarButton'
+import { HomeIcon, TasksIcon } from "../assets/icons"
+import SidebarButton from "./SidebarButton"
 
 const Sidebar = () => {
   return (
@@ -9,17 +9,17 @@ const Sidebar = () => {
           Task Manager
         </h1>
         <p>
-          Um simples{' '}
+          Um simples{" "}
           <span className="text-brend-primary">Organizador de tarefas</span>
         </p>
       </div>
 
       <div className="flex flex-col gap-2 p-2">
-        <SidebarButton to={'/'}>
+        <SidebarButton to={"/"}>
           <HomeIcon />
           Início
         </SidebarButton>
-        <SidebarButton to={'/TaskManager'}>
+        <SidebarButton to={"/TaskManager"}>
           <TasksIcon />
           Minhas Tarefas
         </SidebarButton>

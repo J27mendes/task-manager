@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-import { tv } from 'tailwind-variants'
+import PropTypes from "prop-types"
+import { NavLink } from "react-router-dom"
+import { tv } from "tailwind-variants"
 
 const SidebarButton = ({ children, to }) => {
   const sideBarButton = tv({
-    base: 'flex items-center gap-2 rounded-lg px-6 py-3',
+    base: "flex items-center gap-2 rounded-lg px-6 py-3",
     variants: {
       color: {
-        unselected: 'text-brend-darkGrey',
-        selected: 'bg-brend-lightGreen text-brend-primary',
+        unselected: "text-brend-darkGrey",
+        selected: "bg-brend-lightGreen text-brend-primary",
       },
     },
   })
@@ -17,7 +17,7 @@ const SidebarButton = ({ children, to }) => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        sideBarButton({ color: isActive ? 'selected' : 'unselected' })
+        sideBarButton({ color: isActive ? "selected" : "unselected" })
       }
     >
       {children}
@@ -27,7 +27,7 @@ const SidebarButton = ({ children, to }) => {
 
 SidebarButton.propTypes = {
   children: PropTypes.node.isRequired,
-  color: PropTypes.oneOf(['unselected', 'selected']),
+  color: PropTypes.oneOf(["unselected", "selected"]),
 }
 
 export default SidebarButton

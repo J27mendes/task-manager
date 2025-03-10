@@ -1,7 +1,7 @@
-import { toast } from 'sonner'
+import { toast } from "sonner"
 
-import { toastMessages } from '../../utils'
-import { useUpdateTask } from './useUpdateTask'
+import { toastMessages } from "../../utils"
+import { useUpdateTask } from "./useUpdateTask"
 
 export const useHandleTaskStatusChange = (tasks) => {
   const { mutate, isPending } = useUpdateTask()
@@ -11,9 +11,9 @@ export const useHandleTaskStatusChange = (tasks) => {
     if (!taskToUpdate) return
 
     let newStatus
-    if (taskToUpdate.status === 'not_started') newStatus = 'in_progress'
-    else if (taskToUpdate.status === 'in_progress') newStatus = 'done'
-    else newStatus = 'not_started'
+    if (taskToUpdate.status === "not_started") newStatus = "in_progress"
+    else if (taskToUpdate.status === "in_progress") newStatus = "done"
+    else newStatus = "not_started"
 
     mutate(
       { taskId, newStatus },
@@ -22,8 +22,8 @@ export const useHandleTaskStatusChange = (tasks) => {
           toast.success(toastMessages[newStatus].text, {
             style: {
               color: toastMessages[newStatus].color,
-              fontSize: '20px',
-              justifyContent: 'center',
+              fontSize: "20px",
+              justifyContent: "center",
             },
           })
         },

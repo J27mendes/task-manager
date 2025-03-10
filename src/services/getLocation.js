@@ -1,7 +1,7 @@
 export const getLocation = () => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      return reject(new Error('Geolocalização não suportada pelo navegador.'))
+      return reject(new Error("Geolocalização não suportada pelo navegador."))
     }
 
     navigator.geolocation.getCurrentPosition(

@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query"
 
-import { taskQueriesKeys } from '../../keys/queries'
-import { translateMoonPhase } from '../../services/translateMoonPhase'
-import { fetchWeather } from '../../services/weatherApi'
+import { taskQueriesKeys } from "../../keys/queries"
+import { translateMoonPhase } from "../../services/translateMoonPhase"
+import { fetchWeather } from "../../services/weatherApi"
 
 export const useFetchWeather = () => {
   const {

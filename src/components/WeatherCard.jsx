@@ -1,4 +1,4 @@
-import { useFetchWeather } from '../hooks/data/useFetchWeather'
+import { useFetchWeather } from "../hooks/data/useFetchWeather"
 
 const WeatherCard = () => {
   const { weather, error, isLoading } = useFetchWeather()

@@ -1,20 +1,20 @@
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useForm } from "react-hook-form"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
 import {
   ArrowLeftIcon,
   ChevronRightIcon,
   LoaderIcon,
   TrashIcon,
-} from '../assets/icons'
-import Button from '../components/Button'
-import Input from '../components/Input'
-import SelectTime from '../components/SelectTime'
-import Sidebar from '../components/Sidebar'
-import { useDeleteTasks } from '../hooks/data/useDeleteTasks'
-import { useGetTaskId } from '../hooks/data/useGetTaskId'
-import { useUpdateTaskId } from '../hooks/data/useUpdateTaskId'
-import { errorToast, successToast } from '../utils'
+} from "../assets/icons"
+import Button from "../components/Button"
+import Input from "../components/Input"
+import SelectTime from "../components/SelectTime"
+import Sidebar from "../components/Sidebar"
+import { useDeleteTasks } from "../hooks/data/useDeleteTasks"
+import { useGetTaskId } from "../hooks/data/useGetTaskId"
+import { useUpdateTaskId } from "../hooks/data/useUpdateTaskId"
+import { errorToast, successToast } from "../utils"
 
 const TaskDetailsPage = () => {
   const { taskId } = useParams()
@@ -41,11 +41,11 @@ const TaskDetailsPage = () => {
   const handleSaveClick = async (data) => {
     updateTask(data, {
       onSuccess: () => {
-        successToast('Tarefa atualizada com sucesso!')
+        successToast("Tarefa atualizada com sucesso!")
         navigate(-1)
       },
       onError: () => {
-        errorToast('Erro ao atualizar a tarefa, tente novamente!')
+        errorToast("Erro ao atualizar a tarefa, tente novamente!")
       },
     })
   }
@@ -53,11 +53,11 @@ const TaskDetailsPage = () => {
   const handleDeleteClick = async () => {
     deleteTask(undefined, {
       onSuccess: () => {
-        successToast('Tarefa deletada com sucesso!')
+        successToast("Tarefa deletada com sucesso!")
         navigate(-1)
       },
       onError: () => {
-        errorToast('Erro ao deletar a tarefa, por favor tente novamente!')
+        errorToast("Erro ao deletar a tarefa, por favor tente novamente!")
       },
     })
   }
@@ -75,7 +75,7 @@ const TaskDetailsPage = () => {
               <ArrowLeftIcon />
             </button>
             <div className="flex items-center gap-1 text-xs">
-              <Link className="cursor-pointer text-brend-grey" to={'/'}>
+              <Link className="cursor-pointer text-brend-grey" to={"/"}>
                 Minhas Tarefas
               </Link>
               <ChevronRightIcon className="text-brend-grey" />
@@ -101,11 +101,11 @@ const TaskDetailsPage = () => {
                 id="titulo"
                 label="Nome"
                 disabled={deleteTaskIsLoading || updateTaskIsLoading}
-                {...register('title', {
-                  require: 'O titulo é obrigatório!',
+                {...register("title", {
+                  require: "O titulo é obrigatório!",
                   validate: (value) => {
                     if (!value.trim()) {
-                      return 'O titulo não pode estar vázio'
+                      return "O titulo não pode estar vázio"
                     }
                     return true
                   },
@@ -117,7 +117,7 @@ const TaskDetailsPage = () => {
               <SelectTime
                 errorMessage={errors?.time?.message}
                 disabled={deleteTaskIsLoading || updateTaskIsLoading}
-                {...register('time', {
+                {...register("time", {
                   required: true,
                 })}
               />
@@ -127,8 +127,8 @@ const TaskDetailsPage = () => {
                 id="description"
                 label="Descrição"
                 errorMessage={errors?.description?.message}
-                {...register('description', {
-                  required: 'A descrição é obrigatória!',
+                {...register("description", {
+                  required: "A descrição é obrigatória!",
                 })}
                 disabled={deleteTaskIsLoading || updateTaskIsLoading}
               />

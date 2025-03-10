@@ -1,18 +1,18 @@
-import './AddTaskModal.css'
+import "./AddTaskModal.css"
 
-import PropTypes from 'prop-types'
-import { useRef } from 'react'
-import { createPortal } from 'react-dom'
-import { useForm } from 'react-hook-form'
-import { CSSTransition } from 'react-transition-group'
-import { v4 } from 'uuid'
+import PropTypes from "prop-types"
+import { useRef } from "react"
+import { createPortal } from "react-dom"
+import { useForm } from "react-hook-form"
+import { CSSTransition } from "react-transition-group"
+import { v4 } from "uuid"
 
-import { LoaderIcon } from '../assets/icons'
-import { useAddTask } from '../hooks/data/useAddTask'
-import { errorToast, successToast } from '../utils'
-import Button from './Button'
-import Input from './Input'
-import SelectTime from './SelectTime'
+import { LoaderIcon } from "../assets/icons"
+import { useAddTask } from "../hooks/data/useAddTask"
+import { errorToast, successToast } from "../utils"
+import Button from "./Button"
+import Input from "./Input"
+import SelectTime from "./SelectTime"
 
 const AddTaskModal = ({ isOpen, handleClose }) => {
   const nodeRef = useRef()
@@ -24,9 +24,9 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
     reset,
   } = useForm({
     defaultValues: {
-      title: '',
-      time: 'morning',
-      description: '',
+      title: "",
+      time: "morning",
+      description: "",
     },
   })
   const handleSaveClick = async (data) => {
@@ -35,31 +35,31 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
       title: data.title.trim(),
       time: data.time,
       description: data.description.trim(),
-      status: 'not_started',
+      status: "not_started",
     }
     mutate(newTask, {
       onSuccess: () => {
-        successToast('Tarefa adicionada com sucesso!')
+        successToast("Tarefa adicionada com sucesso!")
         handleClose()
         reset({
           defaultValues: {
-            title: '',
-            time: 'morning',
-            description: '',
+            title: "",
+            time: "morning",
+            description: "",
           },
         })
       },
       onError: () => {
-        errorToast('Erro ao adicionar tarefa, por favor tente novamente!')
+        errorToast("Erro ao adicionar tarefa, por favor tente novamente!")
       },
     })
   }
 
   const handleCancelClick = () => {
     reset({
-      title: '',
-      time: 'morning',
-      description: '',
+      title: "",
+      time: "morning",
+      description: "",
     })
     handleClose()
   }
@@ -69,7 +69,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
       nodeRef={nodeRef}
       in={isOpen}
       timeout={700}
-      classNames={'add-task-modal'}
+      classNames={"add-task-modal"}
       unmountOnExit
     >
       <form onSubmit={handleSubmit(handleSaveClick)}>
@@ -88,14 +88,14 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               <Input
                 label="Titulo"
                 id="title"
-                placeholder={'Insira o titulo da tarefa'}
+                placeholder={"Insira o titulo da tarefa"}
                 errorMessage={errors?.title?.message}
                 disabled={isSubmitting}
-                {...register('title', {
-                  required: 'O titulo é obrigatório',
+                {...register("title", {
+                  required: "O titulo é obrigatório",
                   validate: (value) => {
                     if (!value.trim()) {
-                      return 'O titulo não pode estar vázio'
+                      return "O titulo não pode estar vázio"
                     }
                     return true
                   },
@@ -104,21 +104,21 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               <SelectTime
                 errorMessage={errors?.time?.message}
                 disabled={isSubmitting}
-                {...register('time', {
+                {...register("time", {
                   required: true,
                 })}
               />
               <Input
                 label="Descrição"
                 id="description"
-                placeholder={'Descrição da tarefa'}
+                placeholder={"Descrição da tarefa"}
                 errorMessage={errors?.description?.message}
                 disabled={isSubmitting}
-                {...register('description', {
-                  required: 'A descrição é obrigatória',
+                {...register("description", {
+                  required: "A descrição é obrigatória",
                   validate: (value) => {
                     if (!value.trim()) {
-                      return 'A descrição não pode estar vázia'
+                      return "A descrição não pode estar vázia"
                     }
                     return true
                   },
@@ -144,7 +144,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
                   {isPending && (
                     <LoaderIcon
                       className="ml-2 animate-spin text-brend-secundary"
-                      style={{ animationDuration: '2s' }}
+                      style={{ animationDuration: "2s" }}
                     />
                   )}
                 </Button>

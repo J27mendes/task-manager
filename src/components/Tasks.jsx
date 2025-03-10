@@ -1,16 +1,16 @@
-import { CloudsunIcon, MoonIcon, SunIcon } from '../assets/icons'
-import { useClearTasks } from '../hooks/data/useClearTasks'
-import { useGetTasks } from '../hooks/data/useGetTasks'
-import { useHandleTaskStatusChange } from '../hooks/data/useHandleTaskStatusChange'
-import Header from './Header'
-import TaskItem from './TaskItem'
-import TasksDetach from './TasksDetach'
+import { CloudsunIcon, MoonIcon, SunIcon } from "../assets/icons"
+import { useClearTasks } from "../hooks/data/useClearTasks"
+import { useGetTasks } from "../hooks/data/useGetTasks"
+import { useHandleTaskStatusChange } from "../hooks/data/useHandleTaskStatusChange"
+import Header from "./Header"
+import TaskItem from "./TaskItem"
+import TasksDetach from "./TasksDetach"
 
 const Tasks = () => {
   const { data: tasks } = useGetTasks()
-  const morningTasks = tasks?.filter((task) => task.time === 'morning')
-  const afternoonTasks = tasks?.filter((task) => task.time === 'afternoon')
-  const eveningTasks = tasks?.filter((task) => task.time === 'evening')
+  const morningTasks = tasks?.filter((task) => task.time === "morning")
+  const afternoonTasks = tasks?.filter((task) => task.time === "afternoon")
+  const eveningTasks = tasks?.filter((task) => task.time === "evening")
   const { mutate: clearTasks } = useClearTasks()
   const { handleTaskCheckboxChange, isPending } =
     useHandleTaskStatusChange(tasks)
@@ -18,13 +18,13 @@ const Tasks = () => {
   return (
     <div className="w-full space-y-6 px-8 py-16">
       <Header
-        subtitle={'Minhas Tarefas'}
-        title={'Minhas Tarefas'}
+        subtitle={"Minhas Tarefas"}
+        title={"Minhas Tarefas"}
         clearTasks={clearTasks}
       />
       <div className="rounded-xl bg-white p-6">
         <div className="space-y-3">
-          <TasksDetach text={'Manhã'} icon={<SunIcon />} />
+          <TasksDetach text={"Manhã"} icon={<SunIcon />} />
           {morningTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da manhã
@@ -40,7 +40,7 @@ const Tasks = () => {
           ))}
         </div>
         <div className="my-6 space-y-3">
-          <TasksDetach text={'Tarde'} icon={<CloudsunIcon />} />
+          <TasksDetach text={"Tarde"} icon={<CloudsunIcon />} />
           {afternoonTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da tarde
@@ -56,7 +56,7 @@ const Tasks = () => {
           ))}
         </div>
         <div className="space-y-3">
-          <TasksDetach text={'Noite'} icon={<MoonIcon />} />
+          <TasksDetach text={"Noite"} icon={<MoonIcon />} />
           {eveningTasks?.length === 0 && (
             <p className="text-sm text-brend-time">
               Nenhuma tarefa cadastrada para o periodo da noite

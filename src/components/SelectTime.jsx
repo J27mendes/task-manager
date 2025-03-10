@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types'
-import { forwardRef } from 'react'
+import PropTypes from "prop-types"
+import { forwardRef } from "react"
 
-import InputErrorMessage from './InputErrorMessage;'
-import InputLabel from './InputLabel'
+import InputErrorMessage from "./InputErrorMessage;"
+import InputLabel from "./InputLabel"
 
 const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
   return (
@@ -15,16 +15,16 @@ const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
         disabled={disabled}
         {...props}
       >
-        <option value={'morning'}>Manhã</option>
-        <option value={'afternoon'}>Tarde</option>
-        <option value={'evening'}>Noite</option>
+        <option value={"morning"}>Manhã</option>
+        <option value={"afternoon"}>Tarde</option>
+        <option value={"evening"}>Noite</option>
       </select>
       {errorMessage && <InputErrorMessage>{errorMessage}</InputErrorMessage>}
     </div>
   )
 })
 
-SelectTime.displayName = 'SelectTime'
+SelectTime.displayName = "SelectTime"
 SelectTime.propTypes = {
   errorMessage: PropTypes.string,
 }

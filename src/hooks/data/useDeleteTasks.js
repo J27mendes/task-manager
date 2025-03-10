@@ -1,7 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation } from "@tanstack/react-query"
 
-import { taskMutationKeys } from '../../keys/mutation'
-import { api } from '../../libs/api'
+import { taskMutationKeys } from "../../keys/mutation"
+import { api } from "../../libs/api"
 
 export const useDeleteTasks = (taskId) => {
   return useMutation({
