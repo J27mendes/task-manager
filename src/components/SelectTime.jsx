@@ -26,6 +26,7 @@ const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
 
 SelectTime.displayName = "SelectTime"
 SelectTime.propTypes = {
+  disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
 }
 

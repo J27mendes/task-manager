@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import { useState } from "react"
 
 import { AddIcon, TrashIcon } from "../assets/icons"
@@ -29,6 +30,12 @@ const Header = ({ subtitle, title, clearTasks }) => {
       </div>
     </div>
   )
+}
+
+Header.propTypes = {
+  subtitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  clearTasks: PropTypes.func.isRequired,
 }
 
 export default Header
