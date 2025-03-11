@@ -11,7 +11,6 @@ import ListIcon from "./list.svg?react"
 import LoaderIcon from "./loader.svg?react"
 import MoonIcon from "./moon.svg?react"
 import SunIcon from "./sun.svg?react"
-import TaskManagerIcon from "./taskManager.svg?react"
 import TasksIcon from "./tasks.svg?react"
 import TrashIcon from "./trash.svg?react"
 
@@ -29,7 +28,6 @@ export {
   LoaderIcon,
   MoonIcon,
   SunIcon,
-  TaskManagerIcon,
   TasksIcon,
   TrashIcon,
 }
