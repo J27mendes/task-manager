@@ -9,6 +9,7 @@ import {
   TrashIcon,
 } from "../assets/icons"
 import { useDeleteTasks } from "../hooks/data/useDeleteTasks"
+import { getStatusClasses } from "../utils/getStatus"
 import Button from "./Button"
 
 const TaskItem = ({ task, handleCheckboxChange }) => {
@@ -18,34 +19,25 @@ const TaskItem = ({ task, handleCheckboxChange }) => {
     mutate()
   }
 
-  const getStatusClasses = () => {
-    if (task.status === "done") {
-      return "bg-brend-primary text-brend-primary"
-    }
-
-    if (task.status === "in_progress") {
-      return "bg-brend-progress text-brend-progress"
-    }
-
-    if (task.status === "not_started") {
-      return "bg-brend-notStarted text-brend-notStarted"
-    }
-  }
   return (
     <div
-      className={`flex items-center justify-between rounded-lg bg-opacity-10 px-4 py-3 text-sm transition ${getStatusClasses()}`}
+      className={`flex items-center justify-between rounded-lg bg-opacity-10 px-4 py-3 text-sm transition ${getStatusClasses(task)}`}
     >
       <div className="flex items-center gap-2">
         {" "}
         <label
           htmlFor={`task-${task.id}`}
-          className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClasses()}`}
+          className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClasses(task)}`}
         >
           <input
             type="checkbox"
             id={`task-${task.id}`}
             name={`task-${task.id}`}
-            checked={task.status === "done"}
+            checked={
+              task.status === "done" ||
+              task.status === "in_progress" ||
+              task.status === "not_started"
+            }
             className="absolute h-full w-full cursor-pointer opacity-0"
             onChange={() => handleCheckboxChange(task.id)}
           />
