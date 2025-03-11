@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query"
 import PropTypes from "prop-types"
 import { Link } from "react-router-dom"
 
@@ -10,24 +9,13 @@ import {
   TrashIcon,
 } from "../assets/icons"
 import { useDeleteTasks } from "../hooks/data/useDeleteTasks"
-import { errorToast, successToast } from "../utils"
 import Button from "./Button"
 
 const TaskItem = ({ task, handleCheckboxChange }) => {
-  const queryClient = useQueryClient()
   const { mutate, isPending } = useDeleteTasks(task.id)
-  const handleDeleteClick = async () => {
-    mutate(undefined, {
-      onSuccess: () => {
-        queryClient.setQueryData(["TaskManager"], (currentTasks = []) =>
-          currentTasks.filter((oldTask) => oldTask.id !== task.id)
-        )
-        successToast("Tarefa deletada com sucesso!")
-      },
-      onError: () => {
-        errorToast("Erro ao deletar tarefa, por favor tente novamente!")
-      },
-    })
+
+  const handleDeleteClick = () => {
+    mutate()
   }
 
   const getStatusClasses = () => {
