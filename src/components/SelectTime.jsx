@@ -10,6 +10,7 @@ const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
       <InputLabel htmlFor="time">Horário</InputLabel>
       <select
         id="time"
+        name="time"
         className="rounded-lg border border-solid border-brend-border px-4 py-3 outline-brend-primary placeholder:text-sm placeholder:text-brend-lightGrey"
         ref={ref}
         disabled={disabled}
@@ -26,6 +27,8 @@ const SelectTime = forwardRef(({ disabled, errorMessage, ...props }, ref) => {
 
 SelectTime.displayName = "SelectTime"
 SelectTime.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
 }

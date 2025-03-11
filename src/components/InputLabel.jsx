@@ -1,14 +1,18 @@
 import PropTypes from "prop-types"
 
-const InputLabel = (props) => {
+const InputLabel = ({ htmlFor, children }) => {
   return (
-    <label className="text-sm font-semibold text-brend-darkGrey">
-      {props.children}
+    <label
+      htmlFor={htmlFor}
+      className="text-sm font-semibold text-brend-darkGrey"
+    >
+      {children}
     </label>
   )
 }
 
 InputLabel.propTypes = {
+  htmlFor: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 }
 export default InputLabel

@@ -86,6 +86,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               <Input
                 label="Titulo"
                 id="title"
+                name="title"
                 placeholder={"Insira o titulo da tarefa"}
                 errorMessage={errors?.title?.message}
                 disabled={isSubmitting}
@@ -100,6 +101,8 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
                 })}
               />
               <SelectTime
+                id="time"
+                name="time"
                 errorMessage={errors?.time?.message}
                 disabled={isSubmitting}
                 {...register("time", {
@@ -109,6 +112,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
               <Input
                 label="Descrição"
                 id="description"
+                name="description"
                 placeholder={"Descrição da tarefa"}
                 errorMessage={errors?.description?.message}
                 disabled={isSubmitting}

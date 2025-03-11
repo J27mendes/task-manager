@@ -50,10 +50,13 @@ const TaskItem = ({ task, handleCheckboxChange }) => {
       <div className="flex items-center gap-2">
         {" "}
         <label
+          htmlFor={`task-${task.id}`}
           className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClasses()}`}
         >
           <input
             type="checkbox"
+            id={`task-${task.id}`}
+            name={`task-${task.id}`}
             checked={task.status === "done"}
             className="absolute h-full w-full cursor-pointer opacity-0"
             onChange={() => handleCheckboxChange(task.id)}

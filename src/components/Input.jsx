@@ -7,7 +7,9 @@ import InputLabel from "./InputLabel"
 const Input = forwardRef(({ label, errorMessage, ...rest }, ref) => {
   return (
     <div className="flex flex-col space-y-1 text-left">
-      <InputLabel htmlFor={rest.id}>{label}</InputLabel>
+      <InputLabel htmlFor={rest.id} name={rest.name}>
+        {label}
+      </InputLabel>
       <input
         className="rounded-lg border border-solid border-brend-border px-4 py-3 outline-brend-primary placeholder:text-sm placeholder:text-brend-lightGrey"
         ref={ref}
@@ -21,6 +23,7 @@ const Input = forwardRef(({ label, errorMessage, ...rest }, ref) => {
 Input.displayName = "Input"
 Input.propTypes = {
   id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   errorMessage: PropTypes.string,
   placeholder: PropTypes.string,
