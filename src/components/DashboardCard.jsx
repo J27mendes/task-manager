@@ -14,7 +14,8 @@ const DashboardCard = ({ icon, primaryText, secundaryText }) => {
 
 DashboardCard.propTypes = {
   icon: PropTypes.node.isRequired,
-  primaryText: PropTypes.number.isRequired,
-  secondaryText: PropTypes.string,
+  primaryText: PropTypes.number,
+  secundaryText: PropTypes.string,
 }
+
 export default DashboardCard
