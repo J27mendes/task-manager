@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { taskMutationKeys } from "../../keys/mutation"
-import { taskQueriesKeys } from "../../keys/queries"
-import { api } from "../../libs/api"
+import { taskMutationKeys, taskQueriesKeys } from "../../keys"
+import { api } from "../../libs"
 import { errorToast } from "../../utils"
 
 export const useUpdateTask = () => {

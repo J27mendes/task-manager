@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
-import { taskQueriesKeys } from "../../keys/queries"
-import { api } from "../../libs/api"
+import { taskQueriesKeys } from "../../keys"
+import { api } from "../../libs"
 
 export const useGetTaskId = ({ taskId, reset }) => {
   return useQuery({
