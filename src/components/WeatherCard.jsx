@@ -1,10 +1,50 @@
+import { useQuery } from "@tanstack/react-query"
+
 import { useFetchWeather } from "../hooks/data/useFetchWeather"
+import { getLocation } from "../services"
+
+const getStoredCoords = () => {
+  const storedCoords = localStorage.getItem("userCoords")
+  return storedCoords ? JSON.parse(storedCoords) : null
+}
 
 const WeatherCard = () => {
-  const { weather, error, isLoading } = useFetchWeather()
+  const {
+    data: coords,
+    error: geoError,
+    refetch: fetchLocation,
+  } = useQuery({
+    queryKey: ["userCoords"],
+    queryFn: async () => {
+      const storedCoords = getStoredCoords()
+      if (storedCoords) return storedCoords
+
+      const position = await getLocation()
+      const newCoords = { lat: position.latitude, lon: position.longitude }
+      localStorage.setItem("userCoords", JSON.stringify(newCoords))
+      return newCoords
+    },
+    enabled: false,
+    retry: false,
+  })
+
+  const { weather, error, isLoading } = useFetchWeather(
+    coords?.lat,
+    coords?.lon
+  )
+
   return (
     <div className="flex flex-col items-center justify-center space-y-4 rounded-[10px] bg-white p-6">
-      {isLoading ? (
+      {!coords ? (
+        <button
+          onClick={() => fetchLocation()}
+          className="rounded bg-blue-500 px-4 py-2 text-white"
+        >
+          Permitir acesso à localização e clima
+        </button>
+      ) : geoError ? (
+        <p>{geoError}</p>
+      ) : isLoading ? (
         <p>Carregando clima...</p>
       ) : error ? (
         <p>Erro ao obter clima: {error.message}</p>

@@ -4,16 +4,17 @@ import { taskQueriesKeys } from "../../keys"
 import { translateMoonPhase } from "../../services"
 import { fetchWeather } from "../../services"
 
-export const useFetchWeather = () => {
+export const useFetchWeather = (lat, lon) => {
   const {
     data: weatherData,
     error,
     isLoading,
   } = useQuery({
-    queryKey: taskQueriesKeys.weather(),
-    queryFn: fetchWeather,
+    queryKey: taskQueriesKeys.weather(lat, lon),
+    queryFn: () => fetchWeather(lat, lon),
     retry: 1,
     refetchOnWindowFocus: false,
+    enabled: !!lat && !!lon,
   })
 
   const weather = weatherData
