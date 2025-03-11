@@ -18,7 +18,7 @@ const WeatherCard = () => {
       {!coords ? (
         <button
           onClick={() => fetchLocation()}
-          className="rounded bg-blue-500 px-4 py-2 text-white"
+          className="rounded bg-blue-500 px-4 py-2 font-semibold text-white shadow-lg shadow-blue-300"
         >
           Permitir acesso à localização e clima
         </button>
