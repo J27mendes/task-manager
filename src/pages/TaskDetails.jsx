@@ -33,8 +33,11 @@ const TaskDetailsPage = () => {
 
   const { data: task, isLoading } = useGetTaskId({ taskId, reset })
 
-  const { mutate: updateTask, isPending: updateTaskIsLoading } =
-    useUpdateTaskId(taskId)
+  const {
+    mutate: updateTask,
+    isPending: updateTaskIsLoading,
+    isSuccess: updateTaskIsSuccess,
+  } = useUpdateTaskId(taskId)
 
   const handleBackClick = () => {
     navigate(-1)
@@ -53,10 +56,10 @@ const TaskDetailsPage = () => {
   }
 
   useEffect(() => {
-    if (navigating) {
+    if (navigating || updateTaskIsSuccess) {
       navigate(-1)
     }
-  }, [navigating, navigate])
+  }, [navigating, updateTaskIsSuccess, navigate])
 
   if (isLoading || !task) {
     return <div>Carregando...</div>
