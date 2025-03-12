@@ -29,7 +29,7 @@ const TaskDetailsPage = () => {
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
 
-  const { data: task } = useGetTaskId({ taskId, reset })
+  const { data: task, isLoading } = useGetTaskId({ taskId, reset })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
     useUpdateTaskId(taskId)
@@ -60,6 +60,10 @@ const TaskDetailsPage = () => {
         errorToast("Erro ao deletar a tarefa, por favor tente novamente!")
       },
     })
+  }
+
+  if (isLoading || !task) {
+    return <div>Carregando...</div> // Você pode substituir por um componente de spinner ou outra UI de carregamento
   }
 
   return (
