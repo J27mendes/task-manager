@@ -29,7 +29,7 @@ const TaskDetailsPage = () => {
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
 
-  const { data: task, isLoading } = useGetTaskId({ taskId, reset })
+  const { data: task } = useGetTaskId({ taskId, reset })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
     useUpdateTaskId(taskId)
@@ -42,7 +42,7 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
-        navigate(-1)
+        setTimeout(() => navigate(-1), 300)
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
@@ -54,16 +54,12 @@ const TaskDetailsPage = () => {
     deleteTask(undefined, {
       onSuccess: () => {
         successToast("Tarefa deletada com sucesso!")
-        navigate(-1)
+        setTimeout(() => navigate(-1), 300)
       },
       onError: () => {
         errorToast("Erro ao deletar a tarefa, por favor tente novamente!")
       },
     })
-  }
-
-  if (isLoading || !task) {
-    return <div>Carregando...</div> // Você pode substituir por um componente de spinner ou outra UI de carregamento
   }
 
   return (
