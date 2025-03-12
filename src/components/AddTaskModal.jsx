@@ -69,6 +69,7 @@ const AddTaskModal = ({ isOpen, handleClose }) => {
       timeout={700}
       classNames={"add-task-modal"}
       unmountOnExit
+      key={isOpen ? "open" : "closed"}
     >
       <form onSubmit={handleSubmit(handleSaveClick)}>
         <div
