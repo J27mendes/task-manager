@@ -4,18 +4,23 @@ import DashboardCard from "./DashboardCard"
 
 const AllCards = () => {
   const { data: tasks } = useGetTasks()
-  const completedTasks = tasks?.filter((task) => task.status === "done").length
-  const inProgressTasks = tasks?.filter(
+
+  const safeTasks = Array.isArray(tasks) ? tasks : []
+  const completedTasks = safeTasks.filter(
+    (task) => task.status === "done"
+  ).length
+  const inProgressTasks = safeTasks.filter(
     (task) => task.status === "in_progress"
   ).length
-  const notStartedTasks = tasks?.filter(
-    (task) => task.status === "in_progress"
+  const notStartedTasks = safeTasks.filter(
+    (task) => task.status === "not_started"
   ).length
+
   return (
     <div className="grid grid-cols-4 gap-9">
       <DashboardCard
         icon={<ListIcon />}
-        primaryText={tasks?.length}
+        primaryText={safeTasks.length}
         secundaryText={"Tarefas disponiveis"}
       />
       <DashboardCard

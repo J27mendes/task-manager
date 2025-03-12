@@ -7,7 +7,9 @@ export const useHandleTaskStatusChange = (tasks) => {
   const { mutate, isPending } = useUpdateTask()
 
   const handleTaskCheckboxChange = async (taskId) => {
-    const taskToUpdate = tasks?.find((task) => task.id === taskId)
+    const safeTasks = Array.isArray(tasks) ? tasks : []
+    const taskToUpdate = safeTasks.find((task) => task.id === taskId)
+
     if (!taskToUpdate) return
 
     let newStatus

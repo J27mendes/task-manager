@@ -8,7 +8,18 @@ export const useGetTaskId = ({ taskId, reset }) => {
     queryKey: taskQueriesKeys.getId(taskId),
     queryFn: async () => {
       const { data: getTaskId } = await api.get(`${taskId}`)
-      reset(getTaskId)
+
+      if (
+        getTaskId &&
+        typeof getTaskId === "object" &&
+        !Array.isArray(getTaskId)
+      ) {
+        reset(getTaskId)
+      } else {
+        console.error("Dados inválidos recebidos para a tarefa:", getTaskId)
+
+        reset({})
+      }
       return getTaskId
     },
   })
