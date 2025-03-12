@@ -7,7 +7,9 @@ export const useGetTasks = () => {
   return useQuery({
     queryKey: taskQueriesKeys.get(),
     queryFn: async () => {
-      const { data: tasks } = await api.get("")
+      const { data } = await api.get("")
+
+      const tasks = Array.isArray(data) ? data : data?.tasks || []
 
       return tasks
     },
