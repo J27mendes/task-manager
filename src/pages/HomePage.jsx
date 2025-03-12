@@ -13,6 +13,8 @@ const HomePage = () => {
   const { handleTaskCheckboxChange, isPending } =
     useHandleTaskStatusChange(tasks)
 
+  const safeTasks = Array.isArray(tasks) ? tasks : []
+
   return (
     <div className="flex">
       <Sidebar />
@@ -28,14 +30,20 @@ const HomePage = () => {
               </span>
             </div>
             <div className="space-y-3">
-              {tasks?.map((tarefa) => (
-                <TaskItem
-                  key={tarefa.id}
-                  task={tarefa}
-                  disabled={isPending}
-                  handleCheckboxChange={handleTaskCheckboxChange}
-                />
-              ))}
+              {safeTasks.length === 0 ? (
+                <p className="text-sm text-brend-time">
+                  Nenhuma tarefa encontrada
+                </p>
+              ) : (
+                safeTasks.map((tarefa) => (
+                  <TaskItem
+                    key={tarefa.id}
+                    task={tarefa}
+                    disabled={isPending}
+                    handleCheckboxChange={handleTaskCheckboxChange}
+                  />
+                ))
+              )}
             </div>
           </div>
           <WeatherCard />
