@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
@@ -18,6 +18,7 @@ import { useUpdateTaskId } from "../hooks/data/useUpdateTaskId"
 import { errorToast, successToast } from "../utils"
 
 const TaskDetailsPage = () => {
+  const [navigating, setNavigating] = useState(false)
   const { taskId } = useParams()
   const navigate = useNavigate()
   const {
@@ -32,12 +33,6 @@ const TaskDetailsPage = () => {
 
   const { data: task, isLoading } = useGetTaskId({ taskId, reset })
 
-  useEffect(() => {
-    if (task) {
-      reset(task)
-    }
-  }, [task, reset])
-
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
     useUpdateTaskId(taskId)
 
@@ -49,12 +44,19 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
+        setNavigating(true)
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
       },
     })
   }
+
+  useEffect(() => {
+    if (navigating) {
+      navigate(-1)
+    }
+  }, [navigating, navigate])
 
   if (isLoading || !task) {
     return <div>Carregando...</div>
@@ -64,6 +66,7 @@ const TaskDetailsPage = () => {
     deleteTask(undefined, {
       onSuccess: () => {
         successToast("Tarefa deletada com sucesso!")
+        setNavigating(true)
       },
       onError: () => {
         errorToast("Erro ao deletar a tarefa, por favor tente novamente!")
