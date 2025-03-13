@@ -126,7 +126,7 @@ const TaskDetailsPage = () => {
                 label="Nome"
                 disabled={deleteTaskIsLoading || updateTaskIsLoading}
                 {...register("title", {
-                  require: "O titulo é obrigatório!",
+                  required: "O titulo é obrigatório!",
                   validate: (value) => {
                     if (!value.trim()) {
                       return "O titulo não pode estar vázio"
