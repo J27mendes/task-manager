@@ -8,7 +8,7 @@ export const useUpdateTaskId = (taskId) => {
   return useMutation({
     mutationKey: taskMutationKeys.updateId(taskId),
     mutationFn: async (newTask) => {
-      const { data: updateTask } = await api.patch(`${taskId}`, {
+      const { data: updateTask, reset } = await api.patch(`${taskId}`, {
         title: newTask.title.trim(),
         time: newTask.time,
         description: newTask.description.trim(),
@@ -23,6 +23,13 @@ export const useUpdateTaskId = (taskId) => {
 
         return { ...oldTask, ...updatedTask }
       })
+
+      queryClient.invalidateQueries(taskQueriesKeys.getId(taskId))
+
+      // Reseta o formulário após a atualização bem-sucedida
+      if (reset) {
+        reset()
+      }
     },
   })
 }

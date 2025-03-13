@@ -32,7 +32,7 @@ const TaskDetailsPage = () => {
   const { data: task } = useGetTaskId({ taskId, reset })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
-    useUpdateTaskId(taskId)
+    useUpdateTaskId(taskId, reset)
 
   const handleBackClick = () => {
     navigate("/TaskManager")
@@ -42,6 +42,7 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
+        reset()
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
