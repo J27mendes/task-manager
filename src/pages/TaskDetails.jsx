@@ -40,7 +40,7 @@ const TaskDetailsPage = () => {
   } = useUpdateTaskId(taskId)
 
   const handleBackClick = () => {
-    navigate(-1)
+    navigate("/TaskManager")
   }
 
   const handleSaveClick = async (data) => {
@@ -57,7 +57,7 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     if (navigating || updateTaskIsSuccess) {
-      navigate(-1)
+      navigate("/TaskManager")
     }
   }, [navigating, updateTaskIsSuccess, navigate])
 
