@@ -57,7 +57,9 @@ const TaskDetailsPage = () => {
 
   useEffect(() => {
     if (navigating || updateTaskIsSuccess) {
-      navigate("/TaskManager")
+      setTimeout(() => {
+        navigate("/TaskManager")
+      }, 200)
     }
   }, [navigating, updateTaskIsSuccess, navigate])
 
