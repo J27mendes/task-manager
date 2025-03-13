@@ -13,7 +13,7 @@ export const useUpdateTaskId = (taskId) => {
         time: newTask.time,
         description: newTask.description.trim(),
       }
-      const { data: updateTask } = await api.put(
+      const { data: updateTask } = await api.patch(
         `/TaskManager/${taskId}`,
         fullTask
       )
