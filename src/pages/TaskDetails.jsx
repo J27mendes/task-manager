@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
@@ -18,17 +19,33 @@ import { errorToast, successToast } from "../utils"
 
 const TaskDetailsPage = () => {
   const { taskId } = useParams()
+  const { data: task } = useGetTaskId({ taskId })
   const navigate = useNavigate()
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm()
+    reset,
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      time: "morning",
+    },
+  })
+
+  useEffect(() => {
+    if (task) {
+      reset({
+        title: task.title || "",
+        description: task.description || "",
+        time: task.time || "morning",
+      })
+    }
+  }, [task, reset])
 
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
-
-  const { data: task } = useGetTaskId({ taskId })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
     useUpdateTaskId(taskId)

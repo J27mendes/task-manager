@@ -7,7 +7,7 @@ export const useGetTasks = () => {
   return useQuery({
     queryKey: taskQueriesKeys.get(),
     queryFn: async () => {
-      const { data } = await api.get("")
+      const { data } = await api.get("/TaskManager")
 
       const tasks = Array.isArray(data) ? data : data?.tasks || []
 

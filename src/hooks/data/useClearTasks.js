@@ -9,10 +9,10 @@ export const useClearTasks = () => {
   return useMutation({
     mutationKey: taskMutationKeys.clear(),
     mutationFn: async () => {
-      const { data: allTasks } = await api.get("")
+      const { data: allTasks } = await api.get("/TaskManager")
 
       for (const tasks of allTasks) {
-        await api.delete(`${tasks.id}`)
+        await api.delete(`/TaskManager/${tasks.id}`)
       }
     },
     onSuccess: () => {

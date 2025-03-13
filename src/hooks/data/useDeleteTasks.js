@@ -9,7 +9,7 @@ export const useDeleteTasks = (taskId) => {
   return useMutation({
     mutationKey: taskMutationKeys.delete(taskId),
     mutationFn: async () => {
-      const { data: deleteTask } = await api.delete(`${taskId}`)
+      const { data: deleteTask } = await api.delete(`/TaskManager/${taskId}`)
 
       return deleteTask
     },

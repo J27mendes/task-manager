@@ -8,7 +8,7 @@ export const useAddTask = () => {
   return useMutation({
     mutationKey: taskMutationKeys.add(),
     mutationFn: async (task) => {
-      const { data: createdTask } = await api.post(" ", task)
+      const { data: createdTask } = await api.post("/TaskManager", task)
       return createdTask
     },
     onSuccess: (createdTask) => {
