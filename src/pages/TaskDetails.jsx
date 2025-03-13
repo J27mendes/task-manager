@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate, useParams } from "react-router-dom"
 
@@ -18,7 +17,6 @@ import { useUpdateTaskId } from "../hooks/data/useUpdateTaskId"
 import { errorToast, successToast } from "../utils"
 
 const TaskDetailsPage = () => {
-  const [navigating, setNavigating] = useState(false)
   const { taskId } = useParams()
   const navigate = useNavigate()
   const {
@@ -31,13 +29,10 @@ const TaskDetailsPage = () => {
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
 
-  const { data: task, isLoading } = useGetTaskId({ taskId, reset })
+  const { data: task } = useGetTaskId({ taskId, reset })
 
-  const {
-    mutate: updateTask,
-    isPending: updateTaskIsLoading,
-    isSuccess: updateTaskIsSuccess,
-  } = useUpdateTaskId(taskId)
+  const { mutate: updateTask, isPending: updateTaskIsLoading } =
+    useUpdateTaskId(taskId)
 
   const handleBackClick = () => {
     navigate("/TaskManager")
@@ -47,7 +42,6 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
-        setNavigating(true)
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
@@ -55,28 +49,20 @@ const TaskDetailsPage = () => {
     })
   }
 
-  useEffect(() => {
-    if (navigating || updateTaskIsSuccess) {
-      setTimeout(() => {
-        navigate("/TaskManager")
-      }, 200)
-    }
-  }, [navigating, updateTaskIsSuccess, navigate])
-
-  if (isLoading || !task) {
-    return <div>Carregando...</div>
-  }
-
   const handleDeleteClick = async () => {
     deleteTask(undefined, {
       onSuccess: () => {
         successToast("Tarefa deletada com sucesso!")
-        setNavigating(true)
       },
       onError: () => {
         errorToast("Erro ao deletar a tarefa, por favor tente novamente!")
       },
     })
+  }
+
+  const handleDeleteAndBack = async () => {
+    await handleDeleteClick()
+    handleBackClick()
   }
 
   return (
@@ -105,13 +91,18 @@ const TaskDetailsPage = () => {
           <Button
             className="h-fit self-end"
             color="danger"
-            onClick={handleDeleteClick}
+            onClick={handleDeleteAndBack}
           >
             <TrashIcon />
             Deletar Tarefa
           </Button>
         </div>
-        <form onSubmit={handleSubmit(handleSaveClick)}>
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            await handleSaveClick(data)
+            handleBackClick()
+          })}
+        >
           <div className="space-y-6 rounded-xl bg-white p-6">
             <div>
               <Input
