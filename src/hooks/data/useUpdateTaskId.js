@@ -15,14 +15,14 @@ export const useUpdateTaskId = (taskId) => {
       })
 
       const updatedTask = updateTask
-
-      queryClient.setQueryData(taskQueriesKeys.getId(taskId), (oldTask) => {
-        if (!oldTask) {
-          return updatedTask
-        }
-
-        return { ...oldTask, ...updatedTask }
-      })
+      return updatedTask
+    },
+    onSuccess: (updatedTask) => {
+      queryClient.setQueryData(taskQueriesKeys.getId(taskId), (oldTask) => ({
+        ...oldTask,
+        ...updatedTask,
+      }))
+      queryClient.invalidateQueries(taskQueriesKeys.getId(taskId))
     },
   })
 }

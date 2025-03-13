@@ -28,7 +28,7 @@ const TaskDetailsPage = () => {
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
 
-  const { data: task, refetch } = useGetTaskId({ taskId })
+  const { data: task } = useGetTaskId({ taskId })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
     useUpdateTaskId(taskId)
@@ -41,7 +41,6 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
-        refetch()
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
