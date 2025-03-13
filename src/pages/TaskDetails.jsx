@@ -49,6 +49,11 @@ const TaskDetailsPage = () => {
     })
   }
 
+  const handleSaveBack = async (data) => {
+    await handleSaveClick(data)
+    handleBackClick()
+  }
+
   const handleDeleteClick = async () => {
     deleteTask(undefined, {
       onSuccess: () => {
@@ -97,12 +102,7 @@ const TaskDetailsPage = () => {
             Deletar Tarefa
           </Button>
         </div>
-        <form
-          onSubmit={handleSubmit(async (data) => {
-            await handleSaveClick(data)
-            handleBackClick()
-          })}
-        >
+        <form onSubmit={handleSubmit(handleSaveBack)}>
           <div className="space-y-6 rounded-xl bg-white p-6">
             <div>
               <Input
