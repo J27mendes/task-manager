@@ -23,16 +23,15 @@ const TaskDetailsPage = () => {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm()
 
   const { mutate: deleteTask, isPending: deleteTaskIsLoading } =
     useDeleteTasks(taskId)
 
-  const { data: task } = useGetTaskId({ taskId, reset })
+  const { data: task, refetch } = useGetTaskId({ taskId })
 
   const { mutate: updateTask, isPending: updateTaskIsLoading } =
-    useUpdateTaskId(taskId, reset)
+    useUpdateTaskId(taskId)
 
   const handleBackClick = () => {
     navigate("/TaskManager")
@@ -42,7 +41,7 @@ const TaskDetailsPage = () => {
     updateTask(data, {
       onSuccess: () => {
         successToast("Tarefa atualizada com sucesso!")
-        reset()
+        refetch()
       },
       onError: () => {
         errorToast("Erro ao atualizar a tarefa, tente novamente!")
