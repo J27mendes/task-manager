@@ -1,22 +1,25 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import { taskMutationKeys } from "../../keys"
+import { taskMutationKeys, taskQueriesKeys } from "../../keys"
 import { api } from "../../libs"
 import { errorToast, successToast } from "../../utils"
 
 export const useDeleteTasks = (taskId) => {
   const queryClient = useQueryClient()
+
   return useMutation({
     mutationKey: taskMutationKeys.delete(taskId),
     mutationFn: async () => {
-      const { data: deleteTask } = await api.delete(`/TaskManager/${taskId}`)
-
-      return deleteTask
+      await api.delete(`/TaskManager/${taskId}`)
+      return taskId
     },
-    onSuccess: (deletedTask) => {
-      queryClient.setQueryData(["TaskManager"], (currentTasks = []) =>
-        currentTasks.filter((task) => task.id !== deletedTask.id)
+    onSuccess: (deletedTaskId) => {
+      queryClient.setQueryData(taskQueriesKeys.get(), (currentTasks = []) =>
+        currentTasks.filter((task) => task.id !== deletedTaskId)
       )
+
+      queryClient.invalidateQueries(taskQueriesKeys.get())
+
       successToast("Tarefa deletada com sucesso!")
     },
     onError: () => {
