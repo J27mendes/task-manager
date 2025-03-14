@@ -15,11 +15,11 @@ export const useDeleteTasks = (taskId) => {
     },
     onSuccess: (deletedTaskId) => {
       queryClient.setQueryData(taskQueriesKeys.get(), (currentTasks) => {
-        if (!Array.isArray(currentTasks)) return []
+        if (!currentTasks || !Array.isArray(currentTasks)) return []
         return currentTasks.filter((task) => task.id !== deletedTaskId)
       })
 
-      queryClient.invalidateQueries(taskQueriesKeys.get())
+      queryClient.invalidateQueries(taskQueriesKeys.get(), { exact: true })
 
       successToast("Tarefa deletada com sucesso!")
     },
