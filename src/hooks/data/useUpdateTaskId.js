@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import { taskMutationKeys, taskQueriesKeys } from "../../keys"
 import { api } from "../../libs"
+import { errorToast } from "../../utils"
 
 export const useUpdateTaskId = (taskId) => {
   const queryClient = useQueryClient()
@@ -21,9 +22,14 @@ export const useUpdateTaskId = (taskId) => {
       const updatedTask = updateTask
       return updatedTask
     },
-    onSuccess: (updatedTask) => {
+    onSuccess: async (updatedTask) => {
       queryClient.setQueryData(taskQueriesKeys.getId(taskId), updatedTask)
-      queryClient.invalidateQueries(taskQueriesKeys.getId(taskId))
+      await queryClient.invalidateQueries(taskQueriesKeys.getId(taskId))
+      await queryClient.refetchQueries(taskQueriesKeys.getId(taskId))
+    },
+    onError: (error) => {
+      console.error("Erro ao atualizar a tarefa:", error)
+      errorToast("Erro ao atualizar a tarefa. Tente novamente!")
     },
   })
 }
