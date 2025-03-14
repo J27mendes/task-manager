@@ -14,9 +14,10 @@ export const useDeleteTasks = (taskId) => {
       return taskId
     },
     onSuccess: (deletedTaskId) => {
-      queryClient.setQueryData(taskQueriesKeys.get(), (currentTasks = []) =>
-        currentTasks.filter((task) => task.id !== deletedTaskId)
-      )
+      queryClient.setQueryData(taskQueriesKeys.get(), (currentTasks) => {
+        if (!Array.isArray(currentTasks)) return []
+        return currentTasks.filter((task) => task.id !== deletedTaskId)
+      })
 
       queryClient.invalidateQueries(taskQueriesKeys.get())
 
